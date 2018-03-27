@@ -1,0 +1,23 @@
+printf("text\n");				//Prints the specified text to the screen
+
+analog(port #);					//Gets a sensor reading from a specified analog port #
+digital(port #);				//Gets a sensor reading from a specified digital port #
+
+
+msleep(# milliseconds);				//Waits specified number of milliseconds before next line
+wait_for_light(port #);				//Waits for light in the specified port # before next line
+wait_for_touch(port #);				//Waits for touch in the specified port # before next line
+
+set_servo_position(port #, position);		//Moves servo in specified port # to specified position
+
+move_at_power(l_speed, r_speed);		//Moves left(l) and right(r) motors at specified speed
+stop_moving();					//Turns all motors off
+go_to_line();					//Goes to a line
+follow_line();					//Follows a line
+
+camera_open();					//Opens the color camera for use
+camera_open_black();				//Opens the black and white camera for use
+camera_close();					//Closes the current camera instance
+camera_update();				//Pulls a new image from the camera for processing
+get_object_center_x(channel #, object #);	//The x-axis center of a specified object on a specified channel
+get_object_count(channel #);			//Counts the number of objects using the given channel
