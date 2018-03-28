@@ -47,9 +47,25 @@ void stop_moving() {
     create_stop();
   };
 }
+double PID_control(Error,pError,Integral,dt) {
+    double p = kP*Error;
+    double i = kI*Integral;
+    double d = kD*(Error-pError)/dt
+    return p+i+d;
+}
 void go_to_line() {
 }
-void follow_line() {
+void follow_line(double Speed, double dt) {
+  double pError = 0;
+  double Integral = 0;
+  while(/*Condition to continue following*/) {
+    double error = /*Get error from somewhere*/;
+    Integral += error*dt;
+    double control = PID_control(error,pError,Integral,dt);
+    pError = error;
+    move_at_power(Speed-control,Speed+control);
+    msleep(timeStep);
+  };
 }
 void code() {
   //Put your code here
