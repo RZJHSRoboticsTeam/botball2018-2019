@@ -25,17 +25,17 @@ unsigned int startPort = 0;
 
 //If you are using the Lego robot these ports must also be set:
 
-//The robots left weel port
-unsigned int lWeel = 0;
+//The robots left wheel port
+unsigned int lWheel = 0;
 
-//The robots right weel port
-unsigned int rWeel = 1;
+//The robots right wheel port
+unsigned int rWheel = 1;
 
 
 void move_at_power(double lSpeed, double rSpeed) {
   if(robot) {
-    motor_power(lWeel,lSpeed);
-    motor_power(rWeel,rSpeed);
+    motor_power(lWheel,lSpeed);
+    motor_power(rWheel,rSpeed);
   } else {
     create_drive_direct(lSpeed, rSpeed);
   };
