@@ -2,7 +2,7 @@
 #include <math.h>
 typedef enum { false, true } bool;
 double pos[] = {0,0,0};
-double PI = 3.141592;
+double PI = 3.141592653589793;
 
 
 //These constants are required for PID
