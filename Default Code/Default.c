@@ -2,12 +2,18 @@
 #include <math.h>
 typedef enum { false, true } bool;
 double pos[] = {0,0,0};
-double PI = 3.141592;
+double PI = 3.141592653589793;
 
 
-//These constants are required for PID
+//PID Constants
+
+//The Proportion Constant
 double kP = 0;
+
+//The Integral Constant
 double kI = 0;
+
+//The Derivative Constant
 double kD = 0;
 
 
@@ -15,7 +21,7 @@ double kD = 0;
 bool comp = false;
 
 
-//Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego
+//Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
 bool robot = false;
 
 //Change these variables to the ports that the robot is in:
@@ -23,11 +29,11 @@ bool robot = false;
 //The port for the light sensor that starts the robot:
 unsigned int startPort = 0;
 
-//The port for the right line sensor:
-unsigned int rLineSensorPort = 0;
-
 //The port for the left line sensor:
 unsigned int lLineSensorPort = 0;
+
+//The port for the right line sensor:
+unsigned int rLineSensorPort = 0;
 
 //The distance between the two line sensors:
 double lineSensorDist = 0.0;
@@ -79,7 +85,10 @@ void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
 }
 double whiteValue = 0;
 double blackValue = 0;
-void go_to_line() {
+void go_to_line(double lSpeed, double rSpeed, double dt) {
+  whiteValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
+  //take code from move_at_power but change the end condition
+  blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
 }
 void follow_line(double Speed, double dt) {
   double pError = 0;
@@ -121,7 +130,7 @@ void follow_line(double Speed, double dt) {
     if(mult * blackValue > mult * rSense) {
       blackValue = rSense;
     };
-    double error = d*(rSense + lSense - 2.0 * blackValue)/(2.0 * (rSense - lSense));
+    double error = lineSensorDist * (rSense + lSense - 2.0 * blackValue) / (2.0 * (rSense - lSense));
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
