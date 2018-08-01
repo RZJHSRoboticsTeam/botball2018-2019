@@ -1,3 +1,5 @@
 TODO:
 Setup default LEGO and Roomba programs
 Test PIDs
+Clean up code
+Remove functions from main.c - use .h files
