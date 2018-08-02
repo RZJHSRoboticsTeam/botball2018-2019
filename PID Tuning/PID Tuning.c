@@ -1,3 +1,6 @@
+//TODO: .h file
+
+
 #include <kipr/botball.h>
 #include <math.h>
 typedef enum { false, true } bool;
