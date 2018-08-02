@@ -18,11 +18,13 @@ double kI = 0;
 double kD = 0;
 
 
-//Change this variable from false to true if it is the actual competition -- TODO: implement a test vs competition mode which allows us to test things without them being run in competition mode
+//Change this variable from false to true if it is the actual competition
+//TODO: implement a test vs competition mode which allows us to test things without them being run in competition mode
 bool comp = false;
 
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
+//TODO: implement auto switching of drive functions
 bool robot = false;
 
 //Change these variables to the ports that the robot is in:
@@ -47,7 +49,7 @@ unsigned int lWheel = 0;
 //The robots right wheel port
 unsigned int rWheel = 1;
 
-
+//TODO: move.h
 void move_at_power_n(double lSpeed, double rSpeed) {
   if(robot) {
     motor_power(lWheel,lSpeed);
@@ -63,6 +65,7 @@ void stop_moving() {
     create_stop();
   };
 }
+
 double PID_control(Error,pError,Integral,dt) {
     double p = kP*Error;
     double i = kI*Integral;
