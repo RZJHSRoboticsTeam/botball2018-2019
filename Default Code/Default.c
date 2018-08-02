@@ -1,5 +1,6 @@
 #include <kipr/botball.h>
 #include <math.h>
+//TODO: break some functions off into .h files
 typedef enum { false, true } bool;
 double pos[] = {0,0,0};
 double PI = 3.141592653589793;
@@ -17,7 +18,7 @@ double kI = 0;
 double kD = 0;
 
 
-//Change this variable from false to true if it is the actual competition
+//Change this variable from false to true if it is the actual competition -- TODO: implement a test vs competition mode which allows us to test things without them being run in competition mode
 bool comp = false;
 
 
