@@ -1,3 +1,14 @@
+//
+//  Main.c
+//  Botball 2018-2019
+//
+//  Created by RZJHS Robotics.
+//  Copyright © 2018 RZJHS Robotics. All rights reserved.
+//
+
+
+
+
 #include <kipr/botball.h>
 #include <math.h>
 //TODO: break some functions off into .h files
