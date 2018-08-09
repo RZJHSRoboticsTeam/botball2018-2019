@@ -1,4 +1,4 @@
-//
+﻿//
 //  Main.c
 //  Botball 2018-2019
 //
@@ -111,41 +111,13 @@ void follow_line(double Speed, double dt) {
   while(/*Condition to continue following*/) {
     double lSense = analog(lLineSensorPort);
     double rSense = analog(rLineSensorPort);
-    // d = lineSensorDist
-    // simulates colors on a quadratic curve where the center of the robot is at 0
-    // a(x-m)^2+c
-    // c = blackValue
-    // a(d/2-m)^2+blackValue=rSense
-    // a(d/2-m)^2 = rSense - blackValue
-    // a = (rSense - blackValue)/(d/2-m)^2
-    // 
-    // a(d/2+m)^2+blackValue=lSense
-    // a(d/2+m)^2 = lSense - blackValue
-    // a = (lSense - blackValue)/(d/2+m)^2
-    // (rSense - blackValue)/(d/2-m)^2 = (lSense - blackValue)/(d/2+m)^2
-    // (rSense - blackValue)*(d/2+m)^2 = (lSense - blackValue)*(d/2-m)^2
-    // (rSense - blackValue)*(d^2/4+d*m+m^2) = (lSense - blackValue)*(d^2/4-d*m+m^2)
-    // (rSense - blackValue)*d^2/4+(rSense - blackValue)*d*m+(rSense - blackValue)*m^2 = (lSense - blackValue)*d^2/4-(lSense - blackValue)*d*m+(lSense - blackValue)*m^2
-    // (rSense - blackValue)*d^2/4+(rSense - blackValue)*d*m+(lSense - blackValue)*d*m+(rSense - blackValue)*m^2 = (lSense - blackValue)*d^2/4+(lSense - blackValue)*m^2
-    // (rSense - blackValue)*d^2/4+d*m*((rSense - blackValue)+(lSense - blackValue))+(rSense - blackValue)*m^2 = (lSense - blackValue)*d^2/4+(lSense - blackValue)*m^2
-    // (rSense - blackValue)*d^2/4+d*(rSense + lSense - 2 * blackValue)*m+(rSense - blackValue)*m^2 = (lSense - blackValue)*d^2/4+(lSense - blackValue)*m^2
-    // (d^2/4)*((rSense - blackValue)-(lSense - blackValue))+d*(rSense + lSense - 2 * blackValue)*m+(rSense - blackValue)*m^2 = (lSense - blackValue)*m^2
-    // (d^2/4)*(rSense - lSense)+d*(rSense + lSense - 2 * blackValue)*m+(rSense - blackValue)*m^2 = (lSense - blackValue)*m^2
-    // (d^2/4)*(rSense - lSense)+d*(rSense + lSense - 2 * blackValue)*m+m^2*((rSense - blackValue) - (lSense - blackValue)) = 0
-    // (d^2/4)*(rSense - lSense)+d*(rSense + lSense - 2 * blackValue)*m+m^2*(rSense - lSense) = 0
-    // m = -d*(rSense + lSense - 2 * blackValue)/(2*(rSense - lSense))
-    // The error is -m
-    double mult = 1;
-    if(whiteValue < blackValue) {
-      double mult = -1;
-    };
-    if(mult * blackValue > mult * lSense) {
+    if(lSense < blackValue) {
       blackValue = lSense;
     };
-    if(mult * blackValue > mult * rSense) {
+    if(rSense < blackValue) {
       blackValue = rSense;
     };
-    double error = lineSensorDist * (rSense + lSense - 2.0 * blackValue) / (2.0 * (rSense - lSense));
+    double error = (dabs(lSense - blackValue)<25.0) ? -0.5*lineSensorDist : ((dabs(rSense - blackValue)<25.0) ? 0.5*lineSensorDist : 0.0);
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
