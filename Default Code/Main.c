@@ -30,7 +30,6 @@ double kD = 0;
 
 
 //Change this variable from false to true if it is the actual competition
-//TODO: implement a test vs competition mode which allows us to test things without them being run in competition mode
 bool comp = false;
 
 
