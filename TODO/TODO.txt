@@ -2,4 +2,9 @@ TODO:
 Setup default LEGO and Roomba programs
 Test PIDs
 Clean up code
-Remove functions from main.c - use .h files
+Figure out end condition for PID loops
+
+JOSH:
+Complete PID constant testing code
+ALEX:
+Complete move_at_power function
