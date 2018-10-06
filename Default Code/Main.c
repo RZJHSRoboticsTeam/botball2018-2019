@@ -83,6 +83,7 @@ double PID_control(Error,pError,Integral,dt) {
     double d = kD*(Error-pError)/dt
     return p+i+d;
 }
+//movement function with PID error correction
 void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
   double t = 0;
   double pError = 0;
