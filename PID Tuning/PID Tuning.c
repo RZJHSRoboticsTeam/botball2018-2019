@@ -4,7 +4,7 @@
 //
 //  Created by RZJHS Robotics.
 //  Copyright © 2018 RZJHS Robotics. All rights reserved.
-//
+//s
 
 //TODO: Come on guys.  Use branches to keep new/experimental parts of the code from screwing with others.  Eg. a PID line branch and and bang-bang line branch.
 
@@ -32,8 +32,9 @@ double kD = 0;
 double kL = 0.1; //Rate of growth
 double kd = 0.1; //Testing difference
 double kA = 0.1; //Accuracy at completion
-double kS = 100; //Speed of robot during testing
+double kS = 100.0; //Speed of robot during testing
 double k_dt = 0.01; //Timestep
+double kt = 5.0; //Time per test
 
 //Change this variable from false to true if it is the actual competition
 bool comp = false;
@@ -105,7 +106,8 @@ double test(double Speed, double dt) {
   double tError = 0;
   double pError = 0;
   double Integral = 0;
-  while(/*Condition true until a lap is completed on the circuit*/) {
+  double t = 0.0;
+  while(t<kt) {
     double lSense = analog(lLineSensorPort);
     double rSense = analog(rLineSensorPort);
     if(lSense < blackValue) {
@@ -121,6 +123,7 @@ double test(double Speed, double dt) {
     pError = error;
     move_at_power_n(Speed-control,Speed+control);
     msleep(1000.0*dt);
+    t+=dt;
   };
   return tError;
 }
