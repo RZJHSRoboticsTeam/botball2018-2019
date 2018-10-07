@@ -158,7 +158,7 @@ bool test_round(double Speed, double dt) {
 }
 void code() {
   go_to_line(kS,kS,0.01);
-  bool success = foalse;
+  bool success = false;
   while(!success) {
     success = test_round(kS,k_dt);
   }
