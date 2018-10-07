@@ -157,7 +157,8 @@ bool test_round(double Speed, double dt) {
   return (dabs(partialP)<kA && dabs(partialI)<kA && dabs(partialD)<kA)?true:false;
 }
 void code() {
-  bool success = false;
+  go_to_line(kS,kS,0.01);
+  bool success = foalse;
   while(!success) {
     success = test_round(kS,k_dt);
   }
