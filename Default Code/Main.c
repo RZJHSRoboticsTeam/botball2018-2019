@@ -91,7 +91,7 @@ void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
     double error = /*Get error*/;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
-    move_at_power_n(lSpeed-control, rSpeed+control);
+    move_at_power_n(lSpeed*(1.0-control),rSpeed*(1.0+control));
     msleep(1000.0*dt);
     t += dt;
     pError = error;
@@ -117,11 +117,11 @@ void follow_line(double Speed, double dt) {
     if(rSense < blackValue) {
       blackValue = rSense;
     };
-    double error = (dabs(lSense - blackValue)<25.0) ? -0.5*lineSensorDist : ((dabs(rSense - blackValue)<25.0) ? 0.5*lineSensorDist : 0.0);
+    double error = (lSense<(blackValue+whiteValue)/2) ? 0.5*lineSensorDist : ((lSense<(blackValue+whiteValue)/2) ? -0.5*lineSensorDist : 0.0);
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
-    move_at_power_n(Speed-control,Speed+control);
+    move_at_power_n(Speed*(1.0-control),Speed*(1.0+control));
     msleep(1000.0*dt);
   };
 }

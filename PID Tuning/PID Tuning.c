@@ -116,12 +116,12 @@ double test(double Speed, double dt) {
     if(rSense < blackValue) {
       blackValue = rSense;
     };
-    double error = (dabs(lSense - blackValue)<25.0) ? -0.5*lineSensorDist : ((dabs(rSense - blackValue)<25.0) ? 0.5*lineSensorDist : 0.0);
+    double error = (lSense<(blackValue+whiteValue)/2) ? 0.5*lineSensorDist : ((lSense<(blackValue+whiteValue)/2) ? -0.5*lineSensorDist : 0.0);
     Integral += error*dt;
     tError += dabs(error)*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
-    move_at_power_n(Speed-control,Speed+control);
+    move_at_power_n(Speed*(1.0-control),Speed*(1.0+control));
     msleep(1000.0*dt);
     t+=dt;
   };
@@ -139,6 +139,7 @@ bool test_round(double Speed, double dt) {
   double secP = test(Speed,dt);
   double partialP = (secP - initP) / kd;
   kP = initKP - (kL * partialP);
+  if(kP<=0) kP = 0;
 
   //test for kI
   double initI = test(Speed,dt);
@@ -146,6 +147,7 @@ bool test_round(double Speed, double dt) {
   double secI = test(Speed,dt);
   double partialI = (secI - initI) / kd;
   kI = initKI - (kL * partialI);
+  if(kI<=0) kI = 0;
 
   //test for kD
   double initD = test(Speed,dt);
@@ -153,6 +155,7 @@ bool test_round(double Speed, double dt) {
   double secD = test(Speed,dt);
   double partialD = (secD - initD) / kd;
   kD = initKD - (kL * partialD);
+  if(kD<=0) kD = 0;
 
   return (dabs(partialP)<kA && dabs(partialI)<kA && dabs(partialD)<kA)?true:false;
 }
