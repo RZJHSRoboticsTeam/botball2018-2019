@@ -51,6 +51,9 @@ unsigned int rLineSensorPort = 0;
 //The distance between the two line sensors:
 double lineSensorDist = 0.0;
 
+//Value of black line
+double lineValue = 0.0;
+
 //If you are using the Lego robot these ports must also be set:
 
 //The robots left wheel port
@@ -87,12 +90,18 @@ void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
   double t = 0;
   double pError = 0;
   double Integral = 0;
+  unsigned timefromsense = (unsigned)time(NULL);
   while(t<time) {
-    double error = /*Get error*/;
+    double error = (unsigned) time(NULL)- timefromsense;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     move_at_power_n(lSpeed*(1.0-control),rSpeed*(1.0+control));
     msleep(1000.0*dt);
+    
+    if(analog(lLineSensorPort)<=lineValue||analog(rLineSensorPort)<=lineValue){
+      timefromsense = (unsigned)time(NULL);
+    }
+    
     t += dt;
     pError = error;
   };
