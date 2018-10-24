@@ -6,5 +6,7 @@ Figure out end condition for PID loops
 
 JOSH:
 Complete PID constant testing code
-ALEX:
-Complete move_at_power function
+
+
+EVERYONE:
+Document all functions with uses and examples
