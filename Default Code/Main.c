@@ -51,8 +51,6 @@ unsigned int rLineSensorPort = 0;
 //The distance between the two line sensors:
 double lineSensorDist = 0.0;
 
-//Value of black line
-double lineValue = 0.0;
 
 //If you are using the Lego robot these ports must also be set:
 
@@ -98,7 +96,7 @@ void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
     move_at_power_n(lSpeed*(1.0-control),rSpeed*(1.0+control));
     msleep(1000.0*dt);
     
-    if(analog(lLineSensorPort)<=lineValue||analog(rLineSensorPort)<=lineValue){
+    if(analog(lLineSensorPort)<=whiteValue||analog(rLineSensorPort)<=whiteValue){
       timefromsense = (unsigned)time(NULL);
     }
     
