@@ -48,7 +48,7 @@ unsigned int lLineSensorPort = 0;
 unsigned int rLineSensorPort = 0;
 
 //The distance between the two line sensors:
-double lineSensorDist = 0.0;
+float lineSensorDist = 0.0;
 
 
 //If you are using the Lego robot these ports must also be set:
@@ -59,7 +59,7 @@ unsigned int lWheel = 0;
 //The robots right wheel port
 unsigned int rWheel = 1;
 
-void move_at_power(double lSpeed, double rSpeed) {
+void move_at_power(float lSpeed, float rSpeed) {
   if(robot) {
     motor_power(lWheel,lSpeed);
     motor_power(rWheel,rSpeed);
@@ -75,20 +75,20 @@ void stop_moving() {
   };
 }
 
-double PID_control(Error,pError,Integral,dt) {
+double PID_control(double Error,double pError,double Integral,float dt) {
     double p = kP*Error;
     double i = kI*Integral;
     double d = kD*(Error-pError)/dt
     return p+i+d;
 }
 
-double whiteValue = 0;
-double blackValue = 0;
+int whiteValue = 0;
+int blackValue = 0;
 //TODO: Test this function 
-void go_to_line(double lSpeed, double rSpeed, double dt) {
+void go_to_line(float lSpeed, float rSpeed, float dt) {
   whiteValue = 0.5*(analog(lLineSensorPort)+analog(rLineSensorPort));
   move_at_power(lSpeed,rSpeed);
-  double t = 0.0;
+  float t = 0.0;
   double stDev = 0.0;
   double m = whiteValue;
   while(t <= 0.1) {
@@ -103,12 +103,12 @@ void go_to_line(double lSpeed, double rSpeed, double dt) {
   blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
 }
 
-void follow_line(double Speed, double dist, double dt) {
+void follow_line(float Speed, float dist, float dt) {
   double pError = 0.0;
   double Integral = 0.0;
-  for(double t = 0.0;t<=dist/Speed;t+=dt) {
-    double lSense = analog(lLineSensorPort);
-    double rSense = analog(rLineSensorPort);
+  for(float t = 0.0;t<=dist/Speed;t+=dt) {
+    float lSense = analog(lLineSensorPort);
+    float rSense = analog(rLineSensorPort);
     if(lSense < blackValue) {
       blackValue = lSense;
     };
