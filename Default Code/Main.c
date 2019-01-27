@@ -6,8 +6,6 @@
 //  Copyright © 2018 RZJHS Robotics. All rights reserved.
 //
 
-//TODO: Come on guys.  Use branches to keep new/experimental parts of the code from screwing with others.  Eg. a PID line branch and and bang-bang line branch.
-
 
 #include <kipr/botball.h>
 #include <math.h>
@@ -30,11 +28,11 @@ double kD = 0;
 
 
 //Change this variable from false to true if it is the actual competition
+//Enables the line sensor
 bool comp = false;
 
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
-//TODO: implement auto switching of drive functions
 bool robot = false;
 
 //Change these variables to the ports that the robot is in:
@@ -53,14 +51,12 @@ double lineSensorDist = 0.0;
 
 
 //If you are using the Lego robot these ports must also be set:
-
-//The robots left wheel port
+//The left wheel port
 unsigned int lWheel = 0;
 
-//The robots right wheel port
+//The right wheel port
 unsigned int rWheel = 1;
 
-//TODO: move.h
 void move_at_power_n(double lSpeed, double rSpeed) {
   if(robot) {
     motor_power(lWheel,lSpeed);
@@ -76,7 +72,9 @@ void stop_moving() {
     create_stop();
   };
 }
-//TODO: PID.h
+
+//Reminder: as dt goes down, precision increases
+
 double PID_control(Error,pError,Integral,dt) {
     double p = kP*Error;
     double i = kI*Integral;
@@ -93,13 +91,14 @@ void move_at_power(double lSpeed, double rSpeed, double time, double dt) {
     double error = (unsigned) time(NULL)- timefromsense;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
-    move_at_power_n(lSpeed*(1.0-control),rSpeed*(1.0+control));
-    msleep(1000.0*dt);
-    
+    move_at_power_n(lSpeed*(1.0-control),rSpeed*(1.0+control)); //feeds move function
+    msleep(1000.0*dt); //waits
+
     if(analog(lLineSensorPort)<=whiteValue||analog(rLineSensorPort)<=whiteValue){
       timefromsense = (unsigned)time(NULL);
+      //detects the line, updates the time
     }
-    
+
     t += dt;
     pError = error;
   };
@@ -109,7 +108,7 @@ double whiteValue = 0;
 double blackValue = 0;
 void go_to_line(double lSpeed, double rSpeed, double dt) {
   whiteValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
-  //take code from move_at_power but change the end condition
+  //take code from move_at_power but change the end condition, averages the values
   blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
 }
 void follow_line(double Speed, double dt) {
