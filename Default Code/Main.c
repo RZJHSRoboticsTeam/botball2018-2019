@@ -6,8 +6,6 @@
 //  Copyright © 2018 RZJHS Robotics. All rights reserved.
 //
 
-//TODO: Come on guys.  Use branches to keep new/experimental parts of the code from screwing with others.  Eg. a PID line branch and and bang-bang line branch.
-
 
 #include <kipr/botball.h>
 #include <math.h>
@@ -29,11 +27,11 @@ double kD = 0;
 
 
 //Change this variable from false to true if it is the actual competition
+//Enables the line sensor
 bool comp = false;
 
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
-//TODO: implement auto switching of drive functions
 bool robot = false;
 
 //Change these variables to the ports that the robot is in:
@@ -52,14 +50,14 @@ float lineSensorDist = 0.0;
 
 
 //If you are using the Lego robot these ports must also be set:
-
-//The robots left wheel port
+//The left wheel port
 unsigned int lWheel = 0;
 
-//The robots right wheel port
+//The right wheel port
 unsigned int rWheel = 1;
 
-void move_at_power(float lSpeed, float rSpeed) {
+
+void move_at_power_n(double lSpeed, double rSpeed) {
   if(robot) {
     motor_power(lWheel,lSpeed);
     motor_power(rWheel,rSpeed);
@@ -75,12 +73,15 @@ void stop_moving() {
   };
 }
 
+
+//Reminder: as dt goes down, precision increases
 double PID_control(double Error,double pError,double Integral,float dt) {
     double p = kP*Error;
     double i = kI*Integral;
     double d = kD*(Error-pError)/dt
     return p+i+d;
 }
+
 
 int whiteValue = 0;
 int blackValue = 0;
@@ -100,6 +101,7 @@ void go_to_line(float lSpeed, float rSpeed, float dt) {
     msleep(1000.0*dt);
     t += dt;
   };
+
   blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
 }
 
