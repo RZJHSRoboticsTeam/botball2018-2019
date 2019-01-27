@@ -12,8 +12,8 @@ set_servo_position(port #, position);		//Moves servo in specified port # to spec
 
 move_at_power(l_speed, r_speed);		//Moves left(l) and right(r) motors at specified speed
 stop_moving();					//Turns all motors off
-go_to_line();					//Goes to a line
-follow_line();					//Follows a line
+go_to_line(l_speed, r_speed, dt);		//Goes to a line
+follow_line(speed, distance, dt);		//Follows a line
 
 camera_open();					//Opens the color camera for use
 camera_open_black();				//Opens the black and white camera for use
