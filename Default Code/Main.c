@@ -5,14 +5,30 @@
 //  Created by RZJHS Robotics.
 //  Copyright © 2019 RZJHS Robotics. All rights reserved.
 //
-
-
 #include <kipr/botball.h>
 #include <math.h>
 typedef enum { false, true } bool;
 double pos[] = {0,0,0};
 double PI = 3.141592653589793;
 
+/*
+ * Motor Ports: 0 - Pulling Chain, 1 - Chain, 2 - Claw Wrist, 3 - Claw
+ * Analog Ports: 0 - Light sensor, 1 - Left Line sensor, 2 - Right Line sensor
+ * Digital Ports: 0 - Touch sensor
+ */
+
+#define CHAIN_PULL 0
+#define CHAIN 1
+#define CLAW_WRIST 2
+#define CLAW 3
+
+#define LIGHT_SENSOR 0
+#define L_LINE_SENSOR 1
+#define R_LINE_SENSOR 2
+
+#define LINE_DIST 1.1
+
+#define TOUCH_SENSOR 0
 
 //PID Constants
 
@@ -33,21 +49,6 @@ bool comp = false;
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
 bool robot = false;
-
-//Change these variables to the ports that the robot is in:
-
-//The port for the light sensor that starts the robot:
-unsigned int startPort = 0;
-
-//The port for the left line sensor:
-unsigned int lLineSensorPort = 0;
-
-//The port for the right line sensor:
-unsigned int rLineSensorPort = 0;
-
-//The distance between the two line sensors:
-float lineSensorDist = 0.0;
-
 
 //If you are using the Lego robot these ports must also be set:
 //The left wheel port
@@ -87,37 +88,37 @@ int whiteValue = 0;
 int blackValue = 0;
 //TODO: Test this function 
 void go_to_line(float lSpeed, float rSpeed, float dt) {
-  whiteValue = 0.5*(analog(lLineSensorPort)+analog(rLineSensorPort));
+  whiteValue = 0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR));
   move_at_power(lSpeed,rSpeed);
   float t = 0.0;
   double stDev = 0.0;
   double m = whiteValue;
   while(t <= 0.1) {
-    stDev = (stDev*(t-dt)+dt*0.5*(analog(lLineSensorPort)+analog(rLineSensorPort)))/t;
+    stDev = (stDev*(t-dt)+dt*0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR)))/t;
     msleep(1000.0*dt);
     t += dt;
   };
-  while(dabs(0.5*(analog(lLineSensorPort)+analog(rLineSensorPort))-m)<=stDev*2.0) {
+  while(dabs(0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR))-m)<=stDev*2.0) {
     msleep(1000.0*dt);
     t += dt;
   };
 
-  blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
+  blackValue = (analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR))/2;
 }
 
 void follow_line(float Speed, float dist, float dt) {
   double pError = 0.0;
   double Integral = 0.0;
   for(float t = 0.0;t<=dist/Speed;t+=dt) {
-    float lSense = analog(lLineSensorPort);
-    float rSense = analog(rLineSensorPort);
+    float lSense = analog(L_LINE_SENSOR);
+    float rSense = analog(R_LINE_SENSOR);
     if(lSense < blackValue) {
       blackValue = lSense;
     };
     if(rSense < blackValue) {
       blackValue = rSense;
     };
-    double error = (lSense<(blackValue+whiteValue)/2) ? 0.5*lineSensorDist : ((lSense<(blackValue+whiteValue)/2) ? -0.5*lineSensorDist : 0.0);
+    double error = (lSense<(blackValue+whiteValue)/2) ? 0.5*LINE_DIST : ((lSense<(blackValue+whiteValue)/2) ? -0.5*LINE_DIST : 0.0);
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
