@@ -11,17 +11,6 @@ typedef enum { false, true } bool;
 double pos[] = {0,0,0};
 #define PI 3.141592653589793;
 
-/*
- * Motor Ports: 0 - Pulling Chain, 1 - Chain, 2 - Claw Wrist, 3 - Claw
- * Analog Ports: 0 - Light sensor, 1 - Left Line sensor, 2 - Right Line sensor
- * Digital Ports: 0 - Touch sensor
- */
-
-#define CHAIN_PULL 0
-#define CHAIN 1
-#define CLAW_WRIST 2
-#define CLAW 3
-
 #define LIGHT_SENSOR 0
 #define L_LINE_SENSOR 1
 #define R_LINE_SENSOR 2
@@ -48,7 +37,7 @@ double pos[] = {0,0,0};
 
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
-#define robot false;
+#define robot true;
 
 //If you are using the Lego robot these ports must also be set:
 //The left wheel port
