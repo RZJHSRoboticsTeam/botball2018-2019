@@ -176,7 +176,7 @@ void follow_line(float Speed, float dist, float dt) {
     if(rSense < blackValue) {
       blackValue = rSense;
     };
-    double error = (lSense<(blackValue+whiteValue)/2) ? 0.5*LINE_DIST : ((rSense<(blackValue+whiteValue)/2) ? -0.5*LINE_DIST : 0.0);
+    double error = (lSense>(blackValue+whiteValue)/2) ? 0.5*LINE_DIST : ((rSense>(blackValue+whiteValue)/2) ? -0.5*LINE_DIST : 0.0);
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
