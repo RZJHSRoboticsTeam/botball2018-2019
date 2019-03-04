@@ -23,8 +23,8 @@ double pos[] = {0,0,0};
 #define CLAW 3
 
 #define LIGHT_SENSOR 0
-#define L_LINE_SENSOR 1
-#define R_LINE_SENSOR 2
+#define L_LINE_SENSOR 0
+#define R_LINE_SENSOR 1
 
 #define LINE_DIST 1.1
 
@@ -33,14 +33,16 @@ double pos[] = {0,0,0};
 //PID Constants
 
 //The Proportion Constant
-#define kP 0
+#define kP 1.0
 
 //The Integral Constant
-#define kI 0
+#define kI 0.0
 
 //The Derivative Constant
-#define kD 0
+#define kD 0.0
 
+//Constant for detecting when something is on the white
+#define kStDev 30.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -113,54 +115,77 @@ double PID_control(double Error,double pError,double Integral,float dt) {
 }
 
 
-int whiteValue = 0;
-int blackValue = 0;
+int whiteValueL = 0;
+int blackValueL = 0;
+int whiteValueR = 0;
+int blackValueR = 0;
+double stDevL = 0.0;
+double stDevR = 0.0;
 //TODO: Test this function 
 void go_to_line(float lSpeed, float rSpeed, float dt) {
-  whiteValue = 0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR));
+  double mL = analog(L_LINE_SENSOR);
+  whiteValueL = mL;
+  double mR = analog(R_LINE_SENSOR);
+  whiteValueR = mR;
   move_at_power(lSpeed,rSpeed);
-  float t = 0.0;
-  double stDev = 0.0;
-  double m = whiteValue;
+  float t = dt;
+  stDevL = 0.0;
+  stDevR = 0.0;
+  msleep(1000.0*dt);
   while(t <= 0.1) {
-    stDev = (stDev*(t-dt)+dt*0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR)))/t;
+    double sqNumL = (analog(L_LINE_SENSOR)-whiteValueL);
+    double sqNumR = (analog(R_LINE_SENSOR)-whiteValueR);
+    stDevL = (stDevL*(t-dt)+dt*sqNumL*sqNumL)/t;
+    stDevR = (stDevR*(t-dt)+dt*sqNumR*sqNumR)/t;
     msleep(1000.0*dt);
     t += dt;
   };
-  while(dabs(0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR))-m)<=stDev*2.0) {
+  stDevL = sqrt(stDevL);
+  stDevR = sqrt(stDevR);
+  while(dabs(analog(L_LINE_SENSOR)-mL)<=kStDev*stDevL&&dabs(analog(R_LINE_SENSOR)-mR)<=kStDev*stDevR) {
     msleep(1000.0*dt);
     t += dt;
   };
-  stop_moving();
-  blackValue = (analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR))/2;
+  blackValueL = analog(L_LINE_SENSOR);
+  blackValueR = analog(R_LINE_SENSOR);
 }
 
 void go_to_line_perpendicular(float lSpeed, float rSpeed, float dt) {
-  whiteValue = 0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR));
+  double mL = analog(L_LINE_SENSOR);
+  whiteValueL = mL;
+  double mR = analog(R_LINE_SENSOR);
+  whiteValueR = mR;
   move_at_power(lSpeed,rSpeed);
-  float t = 0.0;
-  double stDev = 0.0;
-  double m = whiteValue;
+  float t = dt;
+  stDevL = 0.0;
+  stDevR = 0.0;
+  msleep(1000.0*dt);
   while(t <= 0.1) {
-    stDev = (stDev*(t-dt)+dt*0.5*(analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR)))/t;
+    double sqNumL = (analog(L_LINE_SENSOR)-whiteValueL);
+    double sqNumR = (analog(R_LINE_SENSOR)-whiteValueR);
+    stDevL = (stDevL*(t-dt)+dt*sqNumL*sqNumL)/t;
+    stDevR = (stDevR*(t-dt)+dt*sqNumR*sqNumR)/t;
     msleep(1000.0*dt);
     t += dt;
   };
+  stDevL = sqrt(stDevL);
+  stDevR = sqrt(stDevR);
   bool right = true;
   bool left = true;
   while(right || left) {
-    if(dabs(analog(L_LINE_SENSOR)-m)<=stDev*2.0) {
+    if(dabs(analog(L_LINE_SENSOR)-mL)>kStDev*stDevL) {
       stop_moving_left();
       left = false;
     };
-    if(dabs(analog(R_LINE_SENSOR)-m)<=stDev*2.0) {
+    if(dabs(analog(R_LINE_SENSOR)-mR)>kStDev*stDevR) {
       stop_moving_right();
       right = false;
     };
     msleep(1000.0*dt);
     t += dt;
   };
-  blackValue = (analog(L_LINE_SENSOR)+analog(R_LINE_SENSOR))/2;
+  blackValueL = analog(L_LINE_SENSOR);
+  blackValueR = analog(R_LINE_SENSOR);
 }
 
 void follow_line(float Speed, float dist, float dt) {
@@ -170,13 +195,14 @@ void follow_line(float Speed, float dist, float dt) {
   for(t = 0.0;t<=dist/Speed;t+=dt) {
     float lSense = analog(L_LINE_SENSOR);
     float rSense = analog(R_LINE_SENSOR);
-    if(lSense < blackValue) { //check which color gives higher values
-      blackValue = lSense;
+    if(lSense > blackValueL) {
+      blackValueL = lSense;
     };
-    if(rSense < blackValue) {
-      blackValue = rSense;
+    if(rSense > blackValueR) {
+      blackValueR = rSense;
     };
-    double error = (lSense>(blackValue+whiteValue)/2) ? 0.5*LINE_DIST : ((rSense>(blackValue+whiteValue)/2) ? -0.5*LINE_DIST : 0.0);
+    double error = (dabs(analog(R_LINE_SENSOR)-whiteValueR)>kStDev*stDevR) ? -0.5*LINE_DIST : 0.0;
+    error += (dabs(analog(L_LINE_SENSOR)-whiteValueL)>kStDev*stDevL) ? 0.5*LINE_DIST : 0;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
@@ -198,7 +224,7 @@ int main() {
   };
   enable_servos();
   if(comp) {
-    wait_for_light(startPort);
+    wait_for_light(LIGHT_SENSOR);
   };
   code();
   disable_servos();
