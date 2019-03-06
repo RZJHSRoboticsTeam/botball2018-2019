@@ -31,13 +31,13 @@ double pos[] = {0,0,0};
 //PID Constants
 
 //The Proportion Constant
-#define kP 1.0
+#define kP 1.5
 
 //The Integral Constant
-#define kI 0.0
+#define kI 0.2
 
 //The Derivative Constant
-#define kD 0.0
+#define kD 0.01
 
 //Constant for detecting when something is on the white
 #define kStDev 30.0
@@ -199,8 +199,7 @@ void follow_line(float Speed, float dist, float dt) {
     if(rSense > blackValueR) {
       blackValueR = rSense;
     };
-    double error = (dabs(analog(R_LINE_SENSOR)-whiteValueR)>kStDev*stDevR) ? -1.0 : 0.0;
-    error += (dabs(analog(L_LINE_SENSOR)-whiteValueL)>kStDev*stDevL) ? 1.0 : 0.0;
+    double error = (analog(L_LINE_SENSOR)-analog(R_LINE_SENSOR))/4095.0;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
