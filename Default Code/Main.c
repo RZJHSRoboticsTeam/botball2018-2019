@@ -26,10 +26,6 @@ double pos[] = {0,0,0};
 #define L_LINE_SENSOR 0
 #define R_LINE_SENSOR 1
 
-#define LINE_DIST 1.1
-
-#define WHEEL_DIST 1.0
-
 #define TOUCH_SENSOR 0
 
 //PID Constants
@@ -203,10 +199,10 @@ void follow_line(float Speed, float dist, float dt) {
     if(rSense > blackValueR) {
       blackValueR = rSense;
     };
-    double error = (dabs(analog(R_LINE_SENSOR)-whiteValueR)>kStDev*stDevR) ? -LINE_DIST : 0.0;
-    error += (dabs(analog(L_LINE_SENSOR)-whiteValueL)>kStDev*stDevL) ? LINE_DIST : 0;
+    double error = (dabs(analog(R_LINE_SENSOR)-whiteValueR)>kStDev*stDevR) ? -1.0 : 0.0;
+    error += (dabs(analog(L_LINE_SENSOR)-whiteValueL)>kStDev*stDevL) ? 1.0 : 0.0;
     Integral += error*dt;
-    double control = PID_control(error,pError,Integral,dt)/WHEEL_DIST;
+    double control = PID_control(error,pError,Integral,dt);
     pError = error;
     move_at_power(Speed*(1.0-control),Speed*(1.0+control));
     msleep(1000.0*dt);
