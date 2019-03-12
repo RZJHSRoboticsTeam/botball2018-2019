@@ -40,7 +40,7 @@ double pos[] = {0,0,0};
 #define kD 0.01
 
 //Constant for detecting when something is on the white
-#define kStDev 30.0
+#define kStDev 100.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
