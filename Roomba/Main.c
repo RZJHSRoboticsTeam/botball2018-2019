@@ -17,14 +17,14 @@ double pos[] = {0,0,0};
  * Digital Ports: 0 - Touch sensor
  */
 
-#define CHAIN_PULL 0
-#define CHAIN 1
-#define CLAW_WRIST 2
-#define CLAW 3
+#define CHAIN 0
+#define RAISE_CHAIN 1
+#define CLAW 2
+#define CLAW_WRIST 3
 
-#define LIGHT_SENSOR 0
 #define L_LINE_SENSOR 0
 #define R_LINE_SENSOR 1
+#define LIGHT_SENSOR 2
 
 #define TOUCH_SENSOR 0
 
@@ -46,7 +46,6 @@ double pos[] = {0,0,0};
 //Enables the line sensor
 #define comp false
 
-
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
 #define robot false
 
@@ -62,6 +61,51 @@ double roombaRightSpeed = 0.0;
 
 double dabs(double x) {
   return x>=0?x:-x;
+};
+
+#define CHAIN_LIFT 1884
+#define CHAIN_LOWER 836
+#define CLAW_OPEN 1633
+#define CLAW_CLOSE 750
+#define CLAW_CLICK 668
+#define WRIST_HORIZONTAL 650
+#define WRIST_VERTICAL 1809
+void lift_chain() {
+  set_servo_position(RAISE_CHAIN,CHAIN_LIFT);
+};
+
+void lower_chain() {
+  set_servo_position(RAISE_CHAIN,CHAIN_LOWER);
+};
+
+void wrist_horizontal() {
+  set_servo_position(CLAW_WRIST,WRIST_HORIZONTAL);
+};
+
+void wrist_vertical() {
+  set_servo_position(CLAW_WRIST,WRIST_VERTICAL);
+};
+
+void open_claw() {
+  set_servo_position(CLAW,CLAW_OPEN);
+};
+
+void close_claw() {
+  set_servo_position(CLAW,CLAW_CLOSE);
+};
+
+bool close_claw_until_button() {
+  open_claw();
+  double pos;
+  for(pos = 0.0;(!digital(TOUCH_SENSOR))&&pos<1.0;pos+=0.01) {
+    set_servo_position(CLAW,CLAW_OPEN+(CLAW_CLICK-CLAW_OPEN)*pos);
+  };
+  bool ret = digital(TOUCH_SENSOR);
+  close_claw();
+  return ret;
+};
+
+void spin_chain(double height, double speed) {
 };
 
 void move_at_power(double lSpeed, double rSpeed) {
