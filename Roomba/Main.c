@@ -11,16 +11,10 @@ typedef enum { false, true } bool;
 double pos[] = {0,0,0};
 #define PI 3.141592653589793
 
-/*
- * Motor Ports: 0 - Pulling Chain, 1 - Chain, 2 - Claw Wrist, 3 - Claw
- * Analog Ports: 0 - Light sensor, 1 - Left Line sensor, 2 - Right Line sensor
- * Digital Ports: 0 - Touch sensor
- */
-
 #define CHAIN 0
-#define RAISE_CHAIN 1
-#define CLAW 2
-#define CLAW_WRIST 3
+#define RAISE_CHAIN 2
+#define CLAW 3
+#define CLAW_WRIST 1
 
 #define L_LINE_SENSOR 0
 #define R_LINE_SENSOR 1
@@ -67,7 +61,7 @@ double dabs(double x) {
 #define CHAIN_LOWER 836
 #define CLAW_OPEN 1633
 #define CLAW_CLOSE 750
-#define CLAW_CLICK 668
+#define CLAW_CLICK 750
 #define WRIST_HORIZONTAL 650
 #define WRIST_VERTICAL 1809
 void lift_chain() {
@@ -97,15 +91,21 @@ void close_claw() {
 bool close_claw_until_button() {
   open_claw();
   double pos;
-  for(pos = 0.0;(!digital(TOUCH_SENSOR))&&pos<1.0;pos+=0.01) {
+  for(pos = 0.0;pos<1.0;pos+=0.01) {
     set_servo_position(CLAW,CLAW_OPEN+(CLAW_CLICK-CLAW_OPEN)*pos);
+    if(digital(TOUCH_SENSOR)) {
+      return true;
+    };
+    msleep(20);
   };
-  bool ret = digital(TOUCH_SENSOR);
-  close_claw();
-  return ret;
+  msleep(100);
+  return digital(TOUCH_SENSOR);
 };
 
-void spin_chain(double height, double speed) {
+void spin_chain(double distance, double speed) {
+    motor_power(CHAIN,speed);
+    msleep(dabs(distance/speed));
+    motor_power(CHAIN,0);
 };
 
 void move_at_power(double lSpeed, double rSpeed) {
