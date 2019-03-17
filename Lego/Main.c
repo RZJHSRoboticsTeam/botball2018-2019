@@ -1,9 +1,9 @@
-﻿//
+//
 //  Main.c
 //  Botball 2018-2019
 //
 //  Created by RZJHS Robotics.
-//  Copyright © 2019 RZJHS Robotics. All rights reserved.
+//  Copyright B) 2019 RZJHS Robotics. All rights reserved.
 //
 #include <kipr/botball.h>
 #include <math.h>
@@ -48,7 +48,7 @@ double pos[] = {0,0,0};
 
 
 //Set this variable to false if you are using the Roomba, set this variable to true if you are using the Lego robot
-#define robot false
+#define robot true
 
 //If you are using the Lego robot these ports must also be set:
 //The left wheel port
@@ -119,7 +119,7 @@ int whiteValueR = 0;
 int blackValueR = 0;
 double stDevL = 0.0;
 double stDevR = 0.0;
-//TODO: Test this function 
+//TODO: Test this function
 void go_to_line(float lSpeed, float rSpeed, float dt) {
   double mL = analog(L_LINE_SENSOR);
   whiteValueL = mL;
@@ -211,7 +211,16 @@ void follow_line(float Speed, float dist, float dt) {
 
 
 void code() {
-  //Put your code here
+//  msleep(until other robot moves);
+printf("in code");
+  move_at_power(100,-100);
+  msleep(800); // turns right
+printf("supposed to turn");
+  move_at_power(100,95);
+  msleep(5000);
+  go_to_line(100,95,.01);
+
+
 }
 
 
