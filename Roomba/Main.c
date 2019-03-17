@@ -1,9 +1,9 @@
-﻿//
+//
 //  Main.c
 //  Botball 2018-2019
 //
 //  Created by RZJHS Robotics.
-//  Copyright © 2019 RZJHS Robotics. All rights reserved.
+//  Copyright B) 2019 RZJHS Robotics. All rights reserved.
 //
 #include <kipr/botball.h>
 #include <math.h>
@@ -25,13 +25,12 @@ double pos[] = {0,0,0};
 //PID Constants
 
 //The Proportion Constant
-#define kP 1.0
+#define kP 2.0
 
 //The Integral Constant
-#define kI 0.0
-
+#define kI 2.0
 //The Derivative Constant
-#define kD 0.0
+#define kD 0.01
 
 //Constant for detecting when something is on the white
 #define kStDev 100.0
@@ -163,7 +162,7 @@ int whiteValueR = 0;
 int blackValueR = 0;
 double stDevL = 0.0;
 double stDevR = 0.0;
-//TODO: Test this function 
+//TODO: Test this function
 void go_to_line(float lSpeed, float rSpeed, float dt) {
   double mL = analog(L_LINE_SENSOR);
   whiteValueL = mL;
@@ -255,7 +254,11 @@ void follow_line(float Speed, float dist, float dt) {
 
 
 void code() {
-  //Put your code here
+  /*lift_chain();
+  msleep(1000);
+  lower_chain();
+  msleep(1000);*/
+  follow_line(300,1000000,0.001);
 }
 
 
