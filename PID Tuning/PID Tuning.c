@@ -8,7 +8,7 @@
 
 //TODO: Come on guys.  Use branches to keep new/experimental parts of the code from screwing with others.  Eg. a PID line branch and and bang-bang line branch.
 
-/
+
 #include <kipr/botball.h>
 #include <math.h>
 //TODO: break some functions off into .h files
@@ -76,7 +76,6 @@ void move_at_power_n(double lSpeed, double rSpeed) {
     motor_power(lWheel,lSpeed);
     motor_power(rWheel,rSpeed);
   } else {
-
     create_drive_direct(lSpeed, rSpeed);
   };
 }
@@ -88,13 +87,11 @@ void stop_moving() {
   };
 }
 //TODO: PID.h
-
 double PID_control(Error,pError,Integral,dt) {
     double p = kP*Error;
     double i = kI*Integral;
     double d = kD*(Error-pError)/dt
     return p+i+d;
-
 }
 
 double whiteValue = 0;
@@ -102,8 +99,7 @@ double blackValue = 0;
 void go_to_line(double lSpeed, double rSpeed, double dt) {
   whiteValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
   //take code from move_at_power but change the end condition
-  blackValue = (analog(lLineSensorPort) + analog(rLineSensorPort))/2;
-  /
+  blackValue = (analog(lLineSensorPort)+analog(rLineSensorPort))/2;
 }
 
 double test(double Speed, double dt) {
