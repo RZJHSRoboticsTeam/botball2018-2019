@@ -1,9 +1,9 @@
-﻿//
+//
 //  Main.c
 //  Botball 2018-2019
 //
 //  Created by RZJHS Robotics.
-//  Copyright © 2019 RZJHS Robotics. All rights reserved.
+//  Copyright B) 2019 RZJHS Robotics. All rights reserved.
 //
 #include <kipr/botball.h>
 #include <math.h>
@@ -18,9 +18,9 @@ double pos[] = {0,0,0};
  */
 
 #define CHAIN 0
-#define RAISE_CHAIN 1
-#define CLAW 2
-#define CLAW_WRIST 3
+#define RAISE_CHAIN 2
+#define CLAW 3
+#define CLAW_WRIST 1
 
 #define L_LINE_SENSOR 0
 #define R_LINE_SENSOR 1
@@ -31,13 +31,12 @@ double pos[] = {0,0,0};
 //PID Constants
 
 //The Proportion Constant
-#define kP 1.0
+#define kP 2.0
 
 //The Integral Constant
-#define kI 0.0
-
+#define kI 2.0
 //The Derivative Constant
-#define kD 0.0
+#define kD 0.01
 
 //Constant for detecting when something is on the white
 #define kStDev 100.0
@@ -67,7 +66,7 @@ double dabs(double x) {
 #define CHAIN_LOWER 836
 #define CLAW_OPEN 1633
 #define CLAW_CLOSE 750
-#define CLAW_CLICK 668
+#define CLAW_CLICK 750
 #define WRIST_HORIZONTAL 650
 #define WRIST_VERTICAL 1809
 void lift_chain() {
@@ -97,15 +96,21 @@ void close_claw() {
 bool close_claw_until_button() {
   open_claw();
   double pos;
-  for(pos = 0.0;(!digital(TOUCH_SENSOR))&&pos<1.0;pos+=0.01) {
+  for(pos = 0.0;pos<1.0;pos+=0.01) {
     set_servo_position(CLAW,CLAW_OPEN+(CLAW_CLICK-CLAW_OPEN)*pos);
+    if(digital(TOUCH_SENSOR)) {
+      return true;
+    };
+    msleep(20);
   };
-  bool ret = digital(TOUCH_SENSOR);
-  close_claw();
-  return ret;
+  msleep(100);
+  return digital(TOUCH_SENSOR);
 };
 
-void spin_chain(double height, double speed) {
+void spin_chain(double distance, double speed) {
+    motor_power(CHAIN,speed);
+    msleep(dabs(distance/speed));
+    motor_power(CHAIN,0);
 };
 
 void move_at_power(double lSpeed, double rSpeed) {
@@ -163,7 +168,7 @@ int whiteValueR = 0;
 int blackValueR = 0;
 double stDevL = 0.0;
 double stDevR = 0.0;
-//TODO: Test this function 
+//TODO: Test this function
 void go_to_line(float lSpeed, float rSpeed, float dt) {
   double mL = analog(L_LINE_SENSOR);
   whiteValueL = mL;
@@ -255,7 +260,11 @@ void follow_line(float Speed, float dist, float dt) {
 
 
 void code() {
-  //Put your code here
+  /*lift_chain();
+  msleep(1000);
+  lower_chain();
+  msleep(1000);*/
+  follow_line(300,1000000,0.001);
 }
 
 
