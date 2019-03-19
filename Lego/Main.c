@@ -211,14 +211,44 @@ void follow_line(float Speed, float dist, float dt) {
 
 
 void code() {
-//  msleep(until other robot moves);
-printf("in code");
-  move_at_power(100,-100);
-  msleep(800); // turns right
-printf("supposed to turn");
-  move_at_power(100,95);
-  msleep(5000);
-  go_to_line(100,95,.01);
+  //  msleep(until other robot moves);
+
+      printf("in code");
+      move_at_power(100,-100);
+      msleep(800); // turns right
+      printf("supposed to turn");
+      move_at_power(100,97);
+      msleep(5000);
+      go_to_line(100,97,.01);
+      move_at_power(100,97);
+      msleep(1000);// moves barrell into zone
+
+      move_at_power(-100,-95);
+      msleep(2000);
+      go_to_line(-100,-100,.01);
+      move_at_power(-100,100);
+      msleep(400);// back up to line and turn left
+
+      move_at_power(100,97);
+      msleep(2000);
+      go_to_line(100,95,.01);
+      move_at_power(-100,100);
+      msleep(1000);//turn to line
+      follow_line(50,5000,.01);// picks up crates
+
+      move_at_power(-100,100);
+      msleep(800);// turns left
+
+      // go parallel with box
+      move_at_power(100,97);
+      msleep(4000);
+
+      move_at_power(-100,100);
+      msleep(800);// turns left
+
+      go_to_line(100,97,.01);
+      move_at_power(100,97);
+      msleep(1000);
 
 
 }
