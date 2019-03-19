@@ -156,7 +156,7 @@ double PID_control(double Error,double pError,double Integral,float dt) {
     return p+i+d;
 }
 
-
+double diff = 0.0;
 int whiteValueL = 0;
 int blackValueL = 0;
 int whiteValueR = 0;
@@ -243,7 +243,7 @@ void follow_line(float Speed, float dist, float dt) {
     if(rSense > blackValueR) {
       blackValueR = rSense;
     };
-    double error = (analog(L_LINE_SENSOR)-analog(R_LINE_SENSOR))/4095.0;
+    double error = (analog(L_LINE_SENSOR)-analog(R_LINE_SENSOR)-diff)/4095.0;
     Integral += error*dt;
     double control = PID_control(error,pError,Integral,dt);
     pError = error;
@@ -260,6 +260,7 @@ void code() {
 
 
 int main() {
+  diff = analog(L_LINE_SENSOR)-analog(R_LINE_SENSOR);
   if(!robot) {
     create_connect();
   };
