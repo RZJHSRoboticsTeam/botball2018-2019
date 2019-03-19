@@ -25,16 +25,16 @@ double pos[] = {0,0,0};
 //PID Constants
 
 //The Proportion Constant
-#define kP 1.0
+#define kP 2.3
 
 //The Integral Constant
-#define kI 0.0
+#define kI 1.75
 
 //The Derivative Constant
-#define kD 0.0
+#define kD 0.01
 
 //Constant for detecting when something is on the white
-#define kStDev 100.0
+#define kStDev 25.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -212,7 +212,8 @@ void go_to_line_perpendicular(float lSpeed, float rSpeed, float dt) {
   };
   stDevL = sqrt(stDevL);
   stDevR = sqrt(stDevR);
-  bool right = true;
+  bool right = true
+
   bool left = true;
   while(right || left) {
     if(dabs(analog(L_LINE_SENSOR)-mL)>kStDev*stDevL) {
