@@ -250,12 +250,20 @@ void code() {
       move_at_power(100,97);
       msleep(1000);
 
+      //deposit at DRZ
       move_at_power(100,-100);
       msleep(800);
+
       go_to_line(100,100,.01);
       move_at_power(100,100);
       msleep(500);
+
       go_to_line(-100,-100,.01);
+      move_at_power(-100,-100);
+      msleep(100);
+
+      move_at_power(100,-100);
+      msleep(800);
 }
 
 
