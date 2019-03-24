@@ -246,7 +246,7 @@ void code() {
 
     // go parallel with box
     move_at_power(100,97);
-    msleep(3100);
+    msleep(3200);
 
     move_at_power(-50,50);
     msleep(2000);// turns left
@@ -274,13 +274,21 @@ void code() {
     //align to verticle line
     move_at_power(0,-100);
     msleep(1200);
-    follow_line(50,250,.01);
+    follow_line(50,275,.01);
 
     //turn and push into box
     move_at_power(-100,100);
     msleep(800);
     move_at_power(100,100);
-    msleep(500);
+    msleep(400);
+
+    //180 to get poms
+     move_at_power(-100,100);
+    msleep(1650);
+
+    move_at_power(100,99);
+    msleep(7000);
+
 
     /* not going for water poms
     move_at_power(-100,100);
