@@ -215,11 +215,11 @@ void code() {
 
     printf("in code");
     move_at_power(100,-100);
-    msleep(800); // turns right
+    msleep(775); // turns right
     printf("supposed to turn");
-    move_at_power(100,98);
+    move_at_power(100,99);
     msleep(5000);
-    go_to_line(100,97,.01);
+    go_to_line(100,99,.01);
     move_at_power(100,98);
     msleep(1000);// moves barrell into zone
 
@@ -262,13 +262,40 @@ void code() {
      move_at_power(-100,-97);
     msleep(3000);
 
+    // do a 180
+    move_at_power(-100,100);
+    msleep(1650);
+
+    //get fire truck
+    go_to_line(100,99,.01);
+    move_at_power(100,99);
+    msleep(250);
+
+    //align to verticle line
+    move_at_power(0,-100);
+    msleep(1200);
+    follow_line(50,250,.01);
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(800);
+    move_at_power(100,100);
+    msleep(500);
+
+    /* not going for water poms
     move_at_power(-100,100);
     msleep(800); //turn left
 
     go_to_line(100,98,.01);
     msleep(100);
     move_at_power(100,98);
-	 msleep(1900);
+	 msleep(1810);// go to blue line
+
+    move_at_power(100,-100);
+    msleep(750); //turn right
+
+    move_at_power(100,98);
+    msleep(5000);// go along blue line*/
 
 //deposit at DRZ
    /* move_at_power(100,-100);
