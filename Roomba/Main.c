@@ -104,7 +104,7 @@ bool close_claw_until_button() {
 
 void spin_chain(double distance, double speed) {
     motor_power(CHAIN,speed);
-    msleep(dabs(distance/speed));
+    msleep(1000*dabs(distance/speed));
     motor_power(CHAIN,0);
 };
 
@@ -253,6 +253,25 @@ void follow_line(float Speed, float dist, float dt) {
     stop_moving();
 }
 
+void gasValve1() {
+    lower_chain();
+    open_claw();
+    wrist_horizontal();
+    spin_chain(240,50);
+    msleep(100);
+    msleep(1000);
+    close_claw_until_button();
+    spin_chain(120,-100);
+    move_at_power(200,200);
+    msleep(1600);
+    stop_moving();
+    spin_chain(28,100);
+    wrist_vertical();
+    msleep(1000);
+    move_at_power(-100,100);
+    msleep(3400);
+    stop_moving();
+};
 
 void code() {
     move_at_power(300,300);
