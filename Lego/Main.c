@@ -3,7 +3,7 @@
 //  Botball 2018-2019
 //
 //  Created by RZJHS Robotics.
-//  Copyright B) 2019 RZJHS Robotics. All rights reserved.
+//  Copyright (C) 2019 RZJHS Robotics. All rights reserved.
 //
 #include <kipr/botball.h>
 #include <math.h>
@@ -274,51 +274,28 @@ void code() {
     //align to verticle line
     move_at_power(0,-100);
     msleep(1200);
-    follow_line(50,275,.01);
+    move_at_power(100,99);
+    msleep(3850);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(800);
+    msleep(1100);
     move_at_power(100,100);
-    msleep(400);
+    msleep(500);
+
+    //back up
+     move_at_power(-100,-100);
+    msleep(1100);
 
     //180 to get poms
      move_at_power(-100,100);
-    msleep(1650);
+    msleep(1800);
 
-    move_at_power(100,99);
+    move_at_power(100,88);
     msleep(7000);
 
 
-    /* not going for water poms
-    move_at_power(-100,100);
-    msleep(800); //turn left
 
-    go_to_line(100,98,.01);
-    msleep(100);
-    move_at_power(100,98);
-	 msleep(1810);// go to blue line
-
-    move_at_power(100,-100);
-    msleep(750); //turn right
-
-    move_at_power(100,98);
-    msleep(5000);// go along blue line*/
-
-//deposit at DRZ
-   /* move_at_power(100,-100);
-      msleep(800);
-
-      go_to_line(100,100,.01);
-      move_at_power(100,100);
-      msleep(500);
-
-      go_to_line(-100,-100,.01);
-      move_at_power(-100,-100);
-      msleep(100);
-
-      move_at_power(100,-100);
-      msleep(800);*/
 
 }
 
