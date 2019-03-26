@@ -217,7 +217,9 @@ void code() {
     move_at_power(100,-100);
     msleep(775); // turns right
     printf("supposed to turn");
+    /*
     move_at_power(100,100);
+
     msleep(5000);
     go_to_line(100,100,.01);
     move_at_power(100,98);
@@ -226,15 +228,17 @@ void code() {
     move_at_power(-100,-95);
     msleep(2000);
     go_to_line(-100,-100,.01);
+    */
+    go_to_line(100,100,.01);
     move_at_power(-100,100);
     msleep(400);// back up to line and turn left
 
     move_at_power(100,97);
     msleep(5000);
     move_at_power(-100,100);
-    msleep(1000);//turn to line
+    msleep(800);//turn to line
         move_at_power(-100,-100);
-    msleep(1000);//turn to line
+    msleep(2000);//turn to line
     go_to_line(100,95,.01);
     move_at_power(-100,-100);
     msleep(2000); // meets center line
@@ -274,12 +278,12 @@ void code() {
     //align to verticle line
     move_at_power(0,-100);
     msleep(1200);
-    move_at_power(100,96);
-    msleep(4250);
+    move_at_power(100,98);
+    msleep(4750);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(800);
+    msleep(650);
     move_at_power(100,100);
     msleep(1000);
 
@@ -289,12 +293,12 @@ void code() {
 
     //180 to get poms
      move_at_power(-100,100);
-    msleep(2250);
+    msleep(2150);
 
-    move_at_power(100,88);
+    move_at_power(100,84);
     msleep(3500);
      move_at_power(100,100);
-    msleep(3500);
+    msleep(4500);
 
 
 
