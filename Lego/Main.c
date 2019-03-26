@@ -217,9 +217,9 @@ void code() {
     move_at_power(100,-100);
     msleep(775); // turns right
     printf("supposed to turn");
-    move_at_power(100,99);
+    move_at_power(100,100);
     msleep(5000);
-    go_to_line(100,99,.01);
+    go_to_line(100,100,.01);
     move_at_power(100,98);
     msleep(1000);// moves barrell into zone
 
@@ -260,7 +260,7 @@ void code() {
 
     //back up
      move_at_power(-100,-97);
-    msleep(3000);
+    msleep(2500);
 
     // do a 180
     move_at_power(-100,100);
@@ -274,26 +274,27 @@ void code() {
     //align to verticle line
     move_at_power(0,-100);
     msleep(1200);
-    move_at_power(100,99);
-    msleep(3850);
+    move_at_power(100,96);
+    msleep(4250);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(1100);
+    msleep(800);
     move_at_power(100,100);
-    msleep(500);
+    msleep(1000);
 
     //back up
      move_at_power(-100,-100);
-    msleep(1100);
+    msleep(2000);
 
     //180 to get poms
      move_at_power(-100,100);
-    msleep(1800);
+    msleep(2250);
 
     move_at_power(100,88);
-    msleep(7000);
-
+    msleep(3500);
+     move_at_power(100,100);
+    msleep(3500);
 
 
 
