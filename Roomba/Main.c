@@ -253,76 +253,54 @@ void follow_line(float Speed, float dist, float dt) {
     stop_moving();
 }
 
-void gasValve1() {
+
+void code() {
+    move_at_power(200,200);
+    msleep(1000);
+    go_to_line_perpendicular(300,300,0.001);
+    move_at_power(200,200);
+    msleep(500);
+    stop_moving();
+    move_at_power(0,-200);
+    msleep(1300);
+    stop_moving();
+    move_at_power(-200,-200);
+    msleep(3000);
+    stop_moving();
+    go_to_line(300,300,0.001);
+    stop_moving();
+    //add stuff
     lower_chain();
     open_claw();
     wrist_horizontal();
     spin_chain(240,50);
-    msleep(100);
     msleep(1000);
     close_claw_until_button();
-    spin_chain(120,-100);
-    move_at_power(200,200);
-    msleep(1600);
+    spin_chain(50,-100);
+    move_at_power(-100,-100);
+    msleep(200);
     stop_moving();
-    spin_chain(28,100);
+    spin_chain(50,-100);
+    move_at_power(-100,-100);
+    msleep(200);
+    stop_moving();
+    spin_chain(50,-100);
+    move_at_power(100,100);
+    msleep(400);
+    stop_moving();
+    spin_chain(35,100);
     wrist_vertical();
     msleep(1000);
     move_at_power(-100,100);
-    msleep(3400);
+    msleep(2900);
     stop_moving();
-};
-
-void code() {
-    move_at_power(300,300);
-    msleep(1000);
-    move_at_power(0,0);
-    go_to_line_perpendicular(100,100,0.01);
-    //Gas Valves
-    move_at_power(100,100);
-    msleep(2000);
-    move_at_power(0,-150);
-    msleep(2500);
-    move_at_power(-100,-100);
-    msleep(1000);
-    go_to_line(-100,-100,0.01);
-    //move_at_power(400,400);
-    //msleep(1000);
-    move_at_power(100,-100);
-    msleep(1400);
-    move_at_power(200,200);
+    go_to_line(-200,-200,0.001);
+    move_at_power(-200,-200);
+    msleep(400);
+    stop_moving();
+    move_at_power(-100,100);
     msleep(800);
-    move_at_power(-100,100);
-    msleep(1600);
-    move_at_power(100,-100);
-    msleep(3100);
-    move_at_power(400,400);
-    msleep(1000);
-    follow_line(400,100,0.01);
-    //Check Towers
-    move_at_power(-100,100);
-    msleep(1600);
-    int burnedTower = 0;
-    move_at_power(200,200);
-    msleep(2000);
-    //Move to Tower 1
-    move_at_power(100,-100);
-    msleep(1500);
-    move_at_power(100,100);
-    msleep(600);
-    if(true/*close_claw_until_button()*/) {
-        //Return to starting box
-        move_at_power(-300,-300);
-        msleep(1000);
-        //Return to tower 1
-    } else {
-        burnedTower = 1;
-        move_at_power(-100,-100);
-        msleep(1000);
-        move_at_power(-100,100);
-        msleep(1500);
-    }
-    //Move away from Tower 1
+    stop_moving();
 }
 
 
