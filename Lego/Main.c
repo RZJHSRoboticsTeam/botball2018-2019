@@ -236,14 +236,14 @@ void code() {
     move_at_power(100,97);
     msleep(5000);
     move_at_power(-100,100);
-    msleep(800);//turn to line
-        move_at_power(-100,-100);
+    msleep(1000);//turn to line
+    move_at_power(-100,-100);
     msleep(2000);//turn to line
     go_to_line(100,95,.01);
     move_at_power(-100,-100);
     msleep(2000); // meets center line
 
-    follow_line(50,650,.01);// picks up crates
+    follow_line(50,665,.01);// picks up crates
 
     move_at_power(-50,50);
     msleep(1600);// turns left
@@ -263,12 +263,12 @@ void code() {
 
 
     //back up
-     move_at_power(-100,-97);
+    move_at_power(-100,-97);
     msleep(2500);
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1650);
+    msleep(1750);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -279,7 +279,7 @@ void code() {
     move_at_power(0,-100);
     msleep(1200);
     move_at_power(100,98);
-    msleep(4750);
+    msleep(4725);
 
     //turn and push into box
     move_at_power(-100,100);
@@ -288,17 +288,74 @@ void code() {
     msleep(1000);
 
     //back up
-     move_at_power(-100,-100);
+    move_at_power(-100,-100);
     msleep(2000);
 
     //180 to get poms
-     move_at_power(-100,100);
+    move_at_power(-100,100);
     msleep(2150);
 
     move_at_power(100,84);
-    msleep(3500);
-     move_at_power(100,100);
-    msleep(4500);
+    msleep(3650);
+    move_at_power(100,100);
+    msleep(8750);// get poms
+
+
+    move_at_power(100,-100);
+    msleep(750);
+
+
+    go_to_line(50,50,.01);
+    msleep(500);
+    go_to_line(100,100,.01); //go to utility box
+
+    move_at_power(100,-100);
+    msleep(750);
+
+    move_at_power(100,-100);
+    msleep(800);
+
+    go_to_line(100,100,.01);
+    follow_line(100,200,.01);
+
+    go_to_line(100,100,.01); //go to fire zone
+
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,98);
+    msleep(4750); // go to medical zone
+
+
+
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100,100);
+    msleep(1000);
+
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,98);
+    msleep(4750);
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100,100);
+    msleep(1000);
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,98);
+    msleep(4750);
+
+
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100, 100);
+    msleep(1000);
 
 
 
