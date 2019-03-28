@@ -268,7 +268,7 @@ void code() {
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1750);
+    msleep(1700);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -293,21 +293,21 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2150);
+    msleep(2185);
 
     move_at_power(100,84);
     msleep(3650);
     move_at_power(100,100);
-    msleep(8750);// get poms
+    msleep(8975);// get poms
 
 
     move_at_power(100,-100);
     msleep(750);
 
 
-    go_to_line(50,50,.01);
-    msleep(500);
-    go_to_line(100,100,.01); //go to utility box
+    go_to_line(50,50,.001);
+    msleep(1000);
+    go_to_line(50,50,.001); //go to utility box
 
     move_at_power(100,-100);
     msleep(750);
