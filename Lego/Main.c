@@ -217,31 +217,30 @@ void code() {
     move_at_power(100,-100);
     msleep(775); // turns right
     printf("supposed to turn");
-    /*
+
     move_at_power(100,100);
 
     msleep(5000);
     go_to_line(100,100,.01);
     move_at_power(100,98);
-    msleep(1000);// moves barrell into zone
+    msleep(500);// moves to utility zone
 
-    move_at_power(-100,-95);
-    msleep(2000);
-    go_to_line(-100,-100,.01);
-    */
-    go_to_line(100,100,.01);
+    move_at_power(-100,100);
+    msleep(1000);
+
+
+
+    /*go_to_line(100,100,.01);
     move_at_power(-100,100);
     msleep(400);// back up to line and turn left
-
-    move_at_power(100,97);
-    msleep(5000);
-    move_at_power(-100,100);
-    msleep(1000);//turn to line
-    move_at_power(-100,-100);
-    msleep(2000);//turn to line
+*/
+    move_at_power(100,100);
+    msleep(1000);
     go_to_line(100,95,.01);
-    move_at_power(-100,-100);
-    msleep(2000); // meets center line
+
+    move_at_power(-100,-65);
+    msleep(2000);//turn to line
+
 
     follow_line(50,665,.01);// picks up crates
 
@@ -279,7 +278,7 @@ void code() {
     move_at_power(0,-100);
     msleep(1200);
     move_at_power(100,98);
-    msleep(4725);
+    msleep(4625);
 
     //turn and push into box
     move_at_power(-100,100);
@@ -293,7 +292,7 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2185);
+    msleep(2385);
 
     move_at_power(100,84);
     msleep(3650);
