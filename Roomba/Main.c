@@ -31,10 +31,10 @@ double pos[] = {0,0,0};
 #define kI 1.75
 
 //The Derivative Constant
-#define kD 0.01
+#define kD 0.02
 
 //Constant for detecting when something is on the white
-#define kStDev 600.0
+#define kStDev 7.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -184,7 +184,7 @@ void go_to_line(float lSpeed, float rSpeed, float dt) {
     };
     stDevL = sqrt(stDevL);
     stDevR = sqrt(stDevR);
-    while(dabs(analog(L_LINE_SENSOR)-mL)<=kStDev&&dabs(analog(R_LINE_SENSOR)-mR)<=kStDev) {
+    while(dabs(analog(L_LINE_SENSOR)-mL)<=kStDev*stDevL&&dabs(analog(R_LINE_SENSOR)-mR)<=kStDev*stDevR) {
         msleep(1000.0*dt);
         t += dt;
     };
@@ -253,27 +253,44 @@ void follow_line(float Speed, float dist, float dt) {
     stop_moving();
 }
 
+void initialize_position() {
+    lift_chain();
+    spin_chain(270,-100);
+    spin_chain(100,-40);
+    wrist_horizontal();
+    close_claw();
+    msleep(100);
+    move_at_power(0,200);
+    msleep(700);
+    stop_moving();
+    lower_chain();
+    
+};
 
 void code() {
+    initialize_position();
     move_at_power(200,200);
-    msleep(1000);
-    go_to_line_perpendicular(300,300,0.001);
+    msleep(2000);
+    go_to_line(300,300,0.001);
     move_at_power(200,200);
-    msleep(500);
+    msleep(1475);
     stop_moving();
     move_at_power(0,-200);
+    msleep(1700);
+    stop_moving();
+    move_at_power(-300,-300);
     msleep(1300);
     stop_moving();
-    move_at_power(-200,-200);
-    msleep(3000);
+    go_to_line(-300,-300,0.001);
     stop_moving();
-    go_to_line(300,300,0.001);
+    move_at_power(250,250);
+    msleep(600);
     stop_moving();
     //add stuff
     lower_chain();
     open_claw();
     wrist_horizontal();
-    spin_chain(240,50);
+    spin_chain(250,50);
     msleep(1000);
     close_claw_until_button();
     spin_chain(50,-100);
@@ -288,19 +305,35 @@ void code() {
     move_at_power(100,100);
     msleep(400);
     stop_moving();
-    spin_chain(35,100);
     wrist_vertical();
     msleep(1000);
     move_at_power(-100,100);
-    msleep(2900);
+    msleep(3800);
     stop_moving();
-    go_to_line(-200,-200,0.001);
-    move_at_power(-200,-200);
-    msleep(400);
+    spin_chain(100,100);
+    open_claw();
+    msleep(100);
+    spin_chain(210,-100);
+    spin_chain(60,-30);
+    move_at_power(200,0);
+    msleep(1500);
     stop_moving();
-    move_at_power(-100,100);
+    //go_to_line(200,200,0.001);
+    move_at_power(200,200);
     msleep(800);
     stop_moving();
+    spin_chain(60,30);
+    lift_chain();
+    msleep(5000);//wait for other robot to move
+    go_to_line(-200,-200,0.001);
+    move_at_power(-200,0);
+    msleep(1475);
+    stop_moving();
+    //towers
+    //follow_line(100,20,0.001);
+    //move_at_power(200,200);
+    //msleep(300);
+    //stop_moving();
 }
 
 
