@@ -263,7 +263,7 @@ void code() {
 
     //back up
     move_at_power(-100,-97);
-    msleep(2500);
+    msleep(2100);
 
     // do a 180
     move_at_power(-100,100);
@@ -277,8 +277,8 @@ void code() {
     //align to verticle line
     move_at_power(0,-100);
     msleep(1200);
-    move_at_power(100,98);
-    msleep(4625);
+    move_at_power(100,100);
+    msleep(4560);
 
     //turn and push into box
     move_at_power(-100,100);
@@ -292,7 +292,7 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2385);
+    msleep(2195);
 
     move_at_power(100,84);
     msleep(3650);
