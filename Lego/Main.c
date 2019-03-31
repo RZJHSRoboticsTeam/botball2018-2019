@@ -305,6 +305,7 @@ void code() {
 
 move_at_power(95,100);
     msleep(4200);  // goto utility box
+
     move_at_power(-100,-100);
     msleep(1000);
 
@@ -313,7 +314,8 @@ move_at_power(95,100);
 
 
     go_to_line(100,100,.01);
-    follow_line(100,200,.01);
+    follow_line(100,200,.01);//follow DRZ
+
     move_at_power(100,100);
     msleep(2000);
     go_to_line(100,100,.01); //go to fire zone
@@ -329,31 +331,10 @@ move_at_power(95,100);
     //turn and push into box
     move_at_power(-100,100);
     msleep(650);
-    move_at_power(100,100);
+    move_at_power(-100,-100);
     msleep(1000);
 
-    move_at_power(0,-100);
-    msleep(1200);
-    move_at_power(100,98);
-    msleep(4750);
 
-    //turn and push into box
-    move_at_power(-100,100);
-    msleep(650);
-    move_at_power(100,100);
-    msleep(1000);
-    move_at_power(0,-100);
-    msleep(1200);
-    move_at_power(100,98);
-    msleep(4750);
-
-
-
-    //turn and push into box
-    move_at_power(-100,100);
-    msleep(650);
-    move_at_power(100, 100);
-    msleep(1000);
 
 
 
