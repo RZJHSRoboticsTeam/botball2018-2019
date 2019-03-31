@@ -40,7 +40,7 @@ double pos[] = {0,0,0};
 #define kD 0.01
 
 //Constant for detecting when something is on the white
-#define kStDev 300.0
+#define kStDev 400.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -223,7 +223,7 @@ void code() {
     msleep(5000);
     go_to_line(100,100,.01);
     move_at_power(100,98);
-    msleep(500);// moves to utility zone
+    msleep(250);// moves to utility zone
 
     move_at_power(-100,100);
     msleep(1000);
@@ -242,14 +242,14 @@ void code() {
     msleep(2000);//turn to line
 
 
-    follow_line(50,665,.01);// picks up crates
+    follow_line(50,635,.01);// picks up crates
 
     move_at_power(-50,50);
     msleep(1600);// turns left
 
     // go parallel with box
     move_at_power(100,97);
-    msleep(3200);
+    msleep(3175);
 
     move_at_power(-50,50);
     msleep(2000);// turns left
@@ -267,7 +267,7 @@ void code() {
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1700);
+    msleep(1675);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -276,13 +276,13 @@ void code() {
 
     //align to verticle line
     move_at_power(0,-100);
-    msleep(1200);
+    msleep(1310);
     move_at_power(100,100);
-    msleep(4560);
+    msleep(4475);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(650);
+    msleep(615);
     move_at_power(100,100);
     msleep(1000);
 
@@ -292,31 +292,33 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2195);
+    msleep(2230);
 
     move_at_power(100,84);
-    msleep(3650);
+    msleep(3700);
     move_at_power(100,100);
-    msleep(8975);// get poms
+    msleep(8880);// get poms
 
 
     move_at_power(100,-100);
-    msleep(750);
+    msleep(825);
 
-
-    go_to_line(50,50,.001);
+move_at_power(95,100);
+    msleep(4200);  // goto utility box
+    /*go_to_line(50,50,.001);
     msleep(1000);
-    go_to_line(50,50,.001); //go to utility box
-
-    move_at_power(100,-100);
-    msleep(750);
+    go_to_line(50,50,.001); //go to utility box*/
+    move_at_power(-100,-100);
+    msleep(1000);
 
     move_at_power(100,-100);
     msleep(800);
 
+
     go_to_line(100,100,.01);
     follow_line(100,200,.01);
-
+    move_at_power(100,100);
+    msleep(2000);
     go_to_line(100,100,.01); //go to fire zone
 
     move_at_power(0,-100);
