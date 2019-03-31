@@ -305,9 +305,6 @@ void code() {
 
 move_at_power(95,100);
     msleep(4200);  // goto utility box
-    /*go_to_line(50,50,.001);
-    msleep(1000);
-    go_to_line(50,50,.001); //go to utility box*/
     move_at_power(-100,-100);
     msleep(1000);
 
@@ -324,7 +321,7 @@ move_at_power(95,100);
     move_at_power(0,-100);
     msleep(1200);
     move_at_power(100,98);
-    msleep(4750); // go to medical zone
+    msleep(3000); // go to medical zone
 
 
 
