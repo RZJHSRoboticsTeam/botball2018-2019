@@ -13,8 +13,8 @@ double pos[] = {0,0,0};
 
 #define CHAIN 0
 #define RAISE_CHAIN 2
-#define CLAW 3
-#define CLAW_WRIST 1
+#define CLAW 1
+#define CLAW_WRIST 3
 
 #define L_LINE_SENSOR 0
 #define R_LINE_SENSOR 1
@@ -34,7 +34,7 @@ double pos[] = {0,0,0};
 #define kD 0.02
 
 //Constant for detecting when something is on the white
-#define kStDev 7.0
+#define kStDev 10.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -66,6 +66,14 @@ double dabs(double x) {
 #define WRIST_VERTICAL 1809
 void lift_chain() {
     set_servo_position(RAISE_CHAIN,CHAIN_LIFT);
+};
+
+void lift_chain_slow() {
+    int i = 0;
+    for(i = 0;i<10;i++) {
+    	set_servo_position(RAISE_CHAIN,(CHAIN_LIFT*i+CHAIN_LOWER*(10-i))/10.0);
+        msleep(100);
+    };
 };
 
 void lower_chain() {
@@ -255,16 +263,15 @@ void follow_line(float Speed, float dist, float dt) {
 
 void initialize_position() {
     lift_chain();
-    spin_chain(270,-100);
-    spin_chain(100,-40);
+    spin_chain(160,-100);
     wrist_horizontal();
     close_claw();
     msleep(100);
     move_at_power(0,200);
-    msleep(700);
+    msleep(600);
     stop_moving();
     lower_chain();
-    
+    spin_chain(180,-70);
 };
 
 void code() {
@@ -273,7 +280,7 @@ void code() {
     msleep(2000);
     go_to_line(300,300,0.001);
     move_at_power(200,200);
-    msleep(1475);
+    msleep(1500);
     stop_moving();
     move_at_power(0,-200);
     msleep(1700);
@@ -305,37 +312,159 @@ void code() {
     move_at_power(100,100);
     msleep(400);
     stop_moving();
-    wrist_vertical();
     msleep(1000);
     move_at_power(-100,100);
-    msleep(3800);
+    msleep(4000);
     stop_moving();
-    spin_chain(100,100);
+    move_at_power(-100,-100);
+    msleep(400);
+    stop_moving();
+    spin_chain(50,100);
     open_claw();
     msleep(100);
-    spin_chain(210,-100);
+    move_at_power(100,100);
+    msleep(400);
+    stop_moving();
+    spin_chain(230,-100);
     spin_chain(60,-30);
     move_at_power(200,0);
-    msleep(1500);
+    msleep(1700);
     stop_moving();
     //go_to_line(200,200,0.001);
     move_at_power(200,200);
-    msleep(800);
+    msleep(900);
     stop_moving();
     spin_chain(60,30);
+    lift_chain_slow();
     lift_chain();
-    msleep(5000);//wait for other robot to move
+    spin_chain(100,-30);
+    msleep(5000);//wait for other robot to move//should be 20000 in actual program
+    move_at_power(-200,-200);
+    msleep(1000);
+    stop_moving();
     go_to_line(-200,-200,0.001);
     move_at_power(-200,0);
     msleep(1475);
     stop_moving();
-    //towers
-    //follow_line(100,20,0.001);
-    //move_at_power(200,200);
-    //msleep(300);
-    //stop_moving();
-}
+    wrist_horizontal();
+    move_at_power(200,150);
+    msleep(1400);
+    stop_moving();
+    spin_chain(290,100);
+    move_at_power(-200,200);
+    msleep(1930);
+    stop_moving();
+    move_at_power(-200,-200);
+    msleep(1600);
+    stop_moving();
+    int tower = -1;
+    //tower 1
+    if(close_claw_until_button()) {
+        //experimental code
+        printf("Tower 1 Active\n");
+        open_claw();
+        go_to_line(200,200,0.001);
+        //real code
+        /*
+        spin_chain(330,-100);
+        go_to_line(200,200,0.001);*/
+        //turn
+        move_at_power(200,-200);
+        msleep(/*time*/);
+        stop_moving();
+    } else {
+        tower = 0;
+        open_claw();
+        go_to_line(200,200,0.001);
+        //turn
+        move_at_power(200,-200);
+        msleep(/*time*/);
+        stop_moving();
+    };
+    follow_line(/*Speed*/,/*dist*/,0.001); //finish this
+    //Tower 2
+    //turn
+    move_at_power(-200,200);
+    msleep(/*time*/);
+    stop_moving();
+    //raise chain
+    spin_chain(/*dist*/,/*speed<0*/);
+    //approach tower
+    move_at_power(-200,-200);
+    msleep(/*time*/);
+    stop_moving();
+    if(close_claw_until_button()) {
+        //experimental code
+        printf("Tower 2 Active\n");
+        open_claw();
+        go_to_line(200,200,0.001);
+        //real code
+        /*
+        spin_chain(330,-100);
+        go_to_line(200,200,0.001);*/
+        //turn
+        move_at_power(200,-200);
+        msleep(/*time*/);
+        stop_moving();
+    } else {
+        tower = 1;
+        open_claw();
+        go_to_line(200,200,0.001);
+        //turn
+        move_at_power(200,-200);
+        msleep(/*time*/);
+        stop_moving();
+    };
+    follow_line(/*Speed*/,/*dist*/,0.001); //finish this
+    if(tower == -1) {
+        //skip tower 3
+        tower = 2;
+    } else {
+        //Tower 3
+        //turn
+        move_at_power(-200,200);
+        msleep(/*time*/);
+        stop_moving();
+        //lower chain
+        spin_chain(/*dist*/,/*speed>0*/);
+        //approach tower
+        move_at_power(-200,-200);
+        msleep(/*time*/);
+        stop_moving();
+        if(close_claw_until_button()) {
+            //experimental code
+            printf("Tower 3 Active\n");
+            open_claw();
+            go_to_line(200,200,0.001);
+            //real code
+            /*
+            spin_chain(330,-100);
+            go_to_line(200,200,0.001);*/
+            //turn
+            move_at_power(200,-200);
+            msleep(/*time*/);
+            stop_moving();
+        } else {
+            tower = 2;
+            open_claw();
+            go_to_line(200,200,0.001);
+            //turn
+            move_at_power(200,-200);
+            msleep(/*time*/);
+            stop_moving();
+        };
+    };
+    //follow line
+    follow_line(/*Speed*/,/*dist*/,0.001); //finish this
 
+    printf("Tower #%d is burning.\n",tower+1);
+    /*go_to_line(200,200,0.001);
+    move_at_power(200,200);
+    msleep(100);
+    stop_moving();
+    go_to_line(200,200,0.001);//edit
+    */
+}
 
 int main() {
     //diff = analog(L_LINE_SENSOR)-analog(R_LINE_SENSOR);
