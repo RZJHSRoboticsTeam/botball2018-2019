@@ -267,7 +267,7 @@ void code() {
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1670);
+    msleep(1640);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -276,13 +276,13 @@ void code() {
 
     //align to verticle line
     move_at_power(0,-100);
-    msleep(1300);
+    msleep(1320);
     move_at_power(100,100);
     msleep(4370);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(615);
+    msleep(585);
     move_at_power(100,100);
     msleep(1000);
 
@@ -292,19 +292,19 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2200);
+    msleep(2210);
 
     move_at_power(100,84);
-    msleep(3875);
+    msleep(3840);
     move_at_power(100,100);
-    msleep(8725);// get poms
+    msleep(8480);// get poms
 
 
     move_at_power(100,-100);
     msleep(825);
 
 move_at_power(95,100);
-    msleep(4200);  // goto utility box
+    msleep(4300);  // goto utility box
     /*go_to_line(50,50,.001);
     msleep(1000);
     go_to_line(50,50,.001); //go to utility box*/
@@ -315,8 +315,8 @@ move_at_power(95,100);
     msleep(800);
 
 
-    go_to_line(100,100,.01);
-    follow_line(100,200,.01);
+    go_to_line(90,100,.01);
+    follow_line(100,300,.01);
     move_at_power(100,100);
     msleep(2000);
     go_to_line(100,100,.01); //go to fire zone
