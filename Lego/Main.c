@@ -40,7 +40,7 @@ double pos[] = {0,0,0};
 #define kD 0.01
 
 //Constant for detecting when something is on the white
-#define kStDev 400.0
+#define kStDev 50.0
 
 //Change this variable from false to true if it is the actual competition
 //Enables the line sensor
@@ -267,7 +267,7 @@ void code() {
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1675);
+    msleep(1670);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -276,9 +276,9 @@ void code() {
 
     //align to verticle line
     move_at_power(0,-100);
-    msleep(1310);
+    msleep(1300);
     move_at_power(100,100);
-    msleep(4475);
+    msleep(4370);
 
     //turn and push into box
     move_at_power(-100,100);
@@ -292,12 +292,12 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2230);
+    msleep(2200);
 
     move_at_power(100,84);
-    msleep(3700);
+    msleep(3875);
     move_at_power(100,100);
-    msleep(8880);// get poms
+    msleep(8725);// get poms
 
 
     move_at_power(100,-100);
@@ -305,7 +305,9 @@ void code() {
 
 move_at_power(95,100);
     msleep(4200);  // goto utility box
-
+    /*go_to_line(50,50,.001);
+    msleep(1000);
+    go_to_line(50,50,.001); //go to utility box*/
     move_at_power(-100,-100);
     msleep(1000);
 
@@ -314,8 +316,7 @@ move_at_power(95,100);
 
 
     go_to_line(100,100,.01);
-    follow_line(100,200,.01);//follow DRZ
-
+    follow_line(100,200,.01);
     move_at_power(100,100);
     msleep(2000);
     go_to_line(100,100,.01); //go to fire zone
@@ -323,7 +324,7 @@ move_at_power(95,100);
     move_at_power(0,-100);
     msleep(1200);
     move_at_power(100,98);
-    msleep(3000); // go to medical zone
+    msleep(4750); // go to medical zone
 
 
 
@@ -331,11 +332,31 @@ move_at_power(95,100);
     //turn and push into box
     move_at_power(-100,100);
     msleep(650);
-    move_at_power(-100,-100);
+    move_at_power(100,100);
     msleep(1000);
 
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,98);
+    msleep(4750);
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100,100);
+    msleep(1000);
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,98);
+    msleep(4750);
 
 
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100, 100);
+    msleep(1000);
 
 
 
