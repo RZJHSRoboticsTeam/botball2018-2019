@@ -209,11 +209,22 @@ void follow_line(float Speed, float dist, float dt) {
     stop_moving();
 }
 
+void get_firefighter(){
+  move_at_power(-50,50);
+	msleep(800);
+    move_at_power(-100,-100);
+	msleep(1000);
+    move_at_power(50,-50);
+    msleep(900)
+    move_at_power(100,100);
+    msleep(1000)
+}
+
 
 void code() {
     //  msleep(until other robot moves);
 
-    printf("in code");
+   printf("in code");
     move_at_power(100,-100);
     msleep(775); // turns right
     printf("supposed to turn");
@@ -267,7 +278,7 @@ void code() {
 
     // do a 180
     move_at_power(-100,100);
-    msleep(1640);
+    msleep(1725);
 
     //get fire truck
     go_to_line(100,99,.01);
@@ -276,15 +287,15 @@ void code() {
 
     //align to verticle line
     move_at_power(0,-100);
-    msleep(1320);
+    msleep(1290);
     move_at_power(100,100);
-    msleep(4370);
+    msleep(4190);
 
     //turn and push into box
     move_at_power(-100,100);
-    msleep(585);
+    msleep(600);
     move_at_power(100,100);
-    msleep(1000);
+    msleep(1500);
 
     //back up
     move_at_power(-100,-100);
@@ -292,73 +303,77 @@ void code() {
 
     //180 to get poms
     move_at_power(-100,100);
-    msleep(2210);
+    msleep(2280);
 
-    move_at_power(100,84);
-    msleep(3840);
+    move_at_power(100,88);
+    msleep(3750);
     move_at_power(100,100);
-    msleep(8480);// get poms
+    msleep(8440);// get poms
 
 
     move_at_power(100,-100);
     msleep(825);
 
-move_at_power(95,100);
-    msleep(4300);  // goto utility box
+move_at_power(88,100);
+    msleep(4500);  // goto utility box
     /*go_to_line(50,50,.001);
     msleep(1000);
     go_to_line(50,50,.001); //go to utility box*/
     move_at_power(-100,-100);
-    msleep(1000);
+    msleep(1500);
 
     move_at_power(100,-100);
-    msleep(800);
+    msleep(1000);
 
 
-    go_to_line(90,100,.01);
+    go_to_line(93,100,.01);
     follow_line(100,300,.01);
     move_at_power(100,100);
+    msleep(1500);
+    go_to_line(100,95,.01); //go to fire zone
+
+    move_at_power(0,-100);
+    msleep(1200);
+    move_at_power(100,100);
+    msleep(3000); // go to medical zone
+
+
+
+
+    //turn and push into box
+    move_at_power(-100,100);
+    msleep(650);
+    move_at_power(100,100);
     msleep(2000);
-    go_to_line(100,100,.01); //go to fire zone
 
-    move_at_power(0,-100);
+
+
+
+
+
+
+
+
+    move_at_power(-100,-100);
+    msleep(1500); //back out of box
+
+	move_at_power(-100,100);
     msleep(1200);
-    move_at_power(100,98);
-    msleep(4750); // go to medical zone
 
+	move_at_power(100,100);
+    msleep(3250);
 
+    move_at_power(100,-100);
+	msleep(800);
 
-
-    //turn and push into box
-    move_at_power(-100,100);
-    msleep(650);
-    move_at_power(100,100);
+   move_at_power(100,100);
     msleep(1000);
 
-    move_at_power(0,-100);
-    msleep(1200);
-    move_at_power(100,98);
-    msleep(4750);
-
-    //turn and push into box
-    move_at_power(-100,100);
-    msleep(650);
-    move_at_power(100,100);
-    msleep(1000);
-    move_at_power(0,-100);
-    msleep(1200);
-    move_at_power(100,98);
-    msleep(4750);
-
-
-
-    //turn and push into box
-    move_at_power(-100,100);
-    msleep(650);
-    move_at_power(100, 100);
-    msleep(1000);
-
-
+    get_firefighter();
+    get_firefighter();
+    get_firefighter();
+    get_firefighter();
+    get_firefighter();
 
 }
 
