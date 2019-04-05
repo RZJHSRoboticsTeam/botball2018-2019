@@ -80,6 +80,14 @@ void lower_chain() {
     set_servo_position(RAISE_CHAIN,CHAIN_LOWER);
 };
 
+void lower_chain_slow() {
+    int i = 0;
+    for(i = 0;i<10;i++) {
+    	set_servo_position(RAISE_CHAIN,(CHAIN_LOWER*i+CHAIN_LIFT*(10-i))/10.0);
+        msleep(100);
+    };
+};
+
 void wrist_horizontal() {
     set_servo_position(CLAW_WRIST,WRIST_HORIZONTAL);
 };
@@ -265,12 +273,15 @@ void initialize_position() {
     lift_chain();
     spin_chain(130,-100);
     wrist_horizontal();
-    close_claw();
     msleep(100);
     move_at_power(0,200);
-    msleep(600);
+    msleep(300);
     stop_moving();
+    close_claw();
     lower_chain();
+    motor_power(CHAIN,100);
+    msleep(500);
+    motor_power(CHAIN,0);
     spin_chain(210,-70);
 };
 
@@ -280,7 +291,7 @@ void code() {
     msleep(2000);
     go_to_line(300,300,0.001);
     move_at_power(200,200);
-    msleep(1500);
+    msleep(1400);
     stop_moving();
     move_at_power(0,-200);
     msleep(1700);
@@ -320,13 +331,13 @@ void code() {
     move_at_power(-100,-100);
     msleep(400);
     stop_moving();
-    spin_chain(50,100);
+    spin_chain(80,100);
     open_claw();
     msleep(100);
     move_at_power(100,100);
     msleep(400);
     stop_moving();
-    spin_chain(220,-100);
+    spin_chain(250,-100);
     spin_chain(60,-30);
     move_at_power(200,0);
     msleep(1700);
@@ -339,7 +350,7 @@ void code() {
     lift_chain_slow();
     lift_chain();
     spin_chain(100,-60);
-    msleep(5000);//wait for other robot to move//should be 20000 in actual program
+    msleep(5000);//wait for other robot to move//should be 12000 in actual program
     move_at_power(-200,-200);
     msleep(1000);
     stop_moving();
@@ -348,56 +359,59 @@ void code() {
     msleep(1475);
     stop_moving();
     wrist_horizontal();
-    move_at_power(170,150);
+    move_at_power(150,150);
     msleep(1400);
     stop_moving();
-    spin_chain(255,100);
+    spin_chain(275,100);
+    spin_chain(10,-100);
     move_at_power(-200,200);
-    msleep(1820);
+    msleep(2100);
     stop_moving();
     move_at_power(-200,-200);
-    msleep(1900);
+    msleep(2100);
     stop_moving();
     int tower = -1;
     //tower 1
     if(close_claw_until_button()) {
         close_claw();
+        msleep(1000);
         printf("Tower 1 Active\n");
-        spin_chain(100,-100);
+        spin_chain(70,-100);
         go_to_line(200,200,0.001);
-        spin_chain(100,100);
-        move_at_power(200,200);
-        msleep(1000);
-        go_to_line(200,200,0.001);
-        move_at_power(200,200);
-        msleep(500);
-        move_at_power(-200,0);
-        msleep(1000);
+        move_at_power(-200,200);
+        msleep(1700);
         stop_moving();
         move_at_power(-200,-200);
-        msleep(800);
+        msleep(500);
         stop_moving();
+        lower_chain_slow();
+        lower_chain();
+        msleep(500);
         open_claw();
-        msleep(100);
+        msleep(500);
+        lift_chain_slow();
+        lift_chain();
+        move_at_power(200,200);
+        msleep(500);
+        stop_moving();
+        spin_chain(100,100);
+        move_at_power(200,-200);
+        msleep(1700);
+        stop_moving();
         move_at_power(200,200);
         msleep(1000);
         stop_moving();
-        move_at_power(200,0);
-        msleep(1000);
-        stop_moving();
-        move_at_power(-200,-200);
-        msleep(500);
-        stop_moving();
-        go_to_line(-200,-200,0.001);
         move_at_power(200,-50);
         msleep(1500);
         stop_moving();
-        spin_chain(30,100);
     } else {
         tower = 0;
         open_claw();
         go_to_line(200,200,0.001);
         //turn
+        move_at_power(200,200);
+        msleep(1000);
+        stop_moving();
         move_at_power(200,-50);
         msleep(1500);
         stop_moving();
@@ -412,33 +426,31 @@ void code() {
     spin_chain(30,-100);
     //approach tower
     move_at_power(-200,-200);
-    msleep(1900);
+    msleep(2100);
     stop_moving();
     if(close_claw_until_button()) {
-        //experimental code
         printf("Tower 2 Active\n");
-        spin_chain(30,100);
+        close_claw();
+        msleep(1000);
+        spin_chain(70,-100);
         go_to_line(200,200,0.001);
-        spin_chain(30,-100);
-        move_at_power(200,200);
-        msleep(500);
-        stop_moving();
-        go_to_line(200,200,0.001);
-        move_at_power(200,-200);
-        msleep(1900);
-        stop_moving();
-        open_claw();
         move_at_power(-200,200);
         msleep(1900);
         stop_moving();
-        move_at_power(200,200);
+        move_at_power(-200,-200);
         msleep(500);
         stop_moving();
-        go_to_line(200,200,0.001);
-        move_at_power(200,200);
+        lower_chain_slow();
+        lower_chain();
         msleep(500);
+        open_claw();
+        msleep(500);
+        lift_chain_slow();
+        lift_chain();
+        spin_chain(100,100);
+        move_at_power(200,-200);
+        msleep(1900);
         stop_moving();
-        go_to_line(200,200,0.001);
         move_at_power(200,-50);
         msleep(1500);
         stop_moving();
@@ -447,11 +459,14 @@ void code() {
         open_claw();
         go_to_line(200,200,0.001);
         //turn
+        move_at_power(200,200);
+        msleep(1000);
+        stop_moving();
         move_at_power(200,-50);
         msleep(1500);
         stop_moving();
     };
-    follow_line(200,40,0.001); //finish this
+    follow_line(200,60,0.001); //finish this
     if(tower == -1) {
         //skip tower 3
         tower = 2;
@@ -464,27 +479,52 @@ void code() {
         //lower chain
         spin_chain(10,100);
         //approach tower
-    	move_at_power(-200,-200);
-    	msleep(1900);
-    	stop_moving();
+        move_at_power(-200,-200);
+        msleep(2100);
+        stop_moving();
         if(close_claw_until_button()) {
-            //experimental code
+            close_claw();
+            msleep(1000);
             printf("Tower 3 Active\n");
-            open_claw();
+            spin_chain(70,-100);
             go_to_line(200,200,0.001);
-            //real code
-            /*
-            spin_chain(330,-100);
-            go_to_line(200,200,0.001);*/
-            //turn
-        	move_at_power(200,-50);
-        	msleep(1500);
+            move_at_power(200,-200);
+            msleep(1700);
+            stop_moving();
+            move_at_power(-200,-200);
+            msleep(500);
+            stop_moving();
+            lower_chain_slow();
+            lower_chain();
+            msleep(500);
+            open_claw();
+            msleep(500);
+            lift_chain_slow();
+            lift_chain();
+            move_at_power(200,200);
+            msleep(500);
+            stop_moving();
+            spin_chain(100,100);
+            move_at_power(-200,200);
+            msleep(1700);
+            stop_moving();
+            move_at_power(200,200);
+            msleep(1000);
+            sstop_moving();
+            move_at_power(200,-50);
+            msleep(1500);
             stop_moving();
         } else {
             tower = 2;
             open_claw();
             go_to_line(200,200,0.001);
             //turn
+            move_at_power(200,200);
+            msleep(1000);
+            stop_moving();
+            move_at_power(200,200);
+            msleep(1000);
+            stop_moving();
             move_at_power(200,-50);
             msleep(1500);
             stop_moving();
@@ -492,14 +532,71 @@ void code() {
     };
     //follow line
     follow_line(200,50,0.001); //finish this
-
     printf("Tower #%d is burning.\n",tower+1);
-    /*go_to_line(200,200,0.001);
-    move_at_power(200,200);
-    msleep(100);
+    move_at_power(-200,200);
+    msleep(1500);
     stop_moving();
-    go_to_line(200,200,0.001);//edit
-    */
+    move_at_power(200,200);
+    msleep(1000);
+    stop_moving();
+    move_at_power(-200,200);
+    msleep(1500);
+    stop_moving();
+    go_to_line(200,200,0.001);
+    spin_chain(100,100);
+    close_claw();
+    spin_chain(100,-100);
+    lift_chain();
+    move_at_power(-200,200);
+    msleep(1800);
+    stop_moving();
+    go_to_line(200,200,0.001);
+    move_at_power(200,-50);
+    msleep(1300);
+    stop_moving();
+    double followLineDist = 100.0*tower+100.0;
+    follow_line(200,followLineDist,0.001);
+    double chainDist = tower==1?60:30;
+    spin_chain(chainDist,-100);
+    move_at_power(200,-200);
+    msleep(1100);
+    stop_moving();
+    move_at_power(-200,-200);
+    msleep(1900);
+    stop_moving();
+    open_claw();
+    go_to_line(200,200,0.001);
+    move_at_power(200,-50);
+    msleep(1300);
+    stop_moving();
+    follow_line(200,followLineDist,0.001);
+    move_at_power(0,200);
+    msleep(1900);
+    stop_moving();
+    spin_chain(100,100);
+    //code to pick up gas valve
+    close_claw();
+    msleep(500);
+    spin_chain(50,-100);
+    move_at_power(-100,-100);
+    msleep(200);
+    stop_moving();
+    spin_chain(50,-100);
+    move_at_power(-100,-100);
+    msleep(200);
+    stop_moving();
+    spin_chain(50,-100);
+    move_at_power(100,100);
+    msleep(400);
+    stop_moving();
+    spin_chain(100,-100);
+    move_at_power(0,-200);
+    msleep(1900);
+    stop_moving();
+    move_at_power(-200,200);
+    msleep(1900);
+    stop_moving();
+    open_claw();
 }
 
 int main() {
